@@ -1,0 +1,500 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   设计令牌 —— 迁移自原 index.html 的 :root
+   颜色与字体进入 Tailwind @theme，可直接使用 bg-paper / text-ink / font-serif 等工具类
+   ========================================================================== */
+@theme {
+  --color-paper: #efebe3;
+  --color-paper2: #e5e0d5;
+  --color-ink: #15120e;
+  --color-inksoft: #544d44;
+  --color-inkfade: #8a8277;
+  --color-accent: #d93a12;
+  --color-rule: rgba(21, 18, 14, 0.16);
+  --color-rule-strong: rgba(21, 18, 14, 0.34);
+
+  --font-serif: 'Songti SC', 'STSong', 'Source Han Serif SC', 'Noto Serif SC', Georgia, 'Times New Roman', serif;
+  --font-sans: 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, 'JetBrains Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+}
+
+/* ==========================================================================
+   基础层 —— 覆盖 Tailwind preflight 与原稿不一致之处
+   ========================================================================== */
+@layer base {
+  :root {
+    --pad: clamp(1.15rem, 5vw, 4.5rem);
+    --maxw: 1240px;
+    --topbar-h: 60px;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  /* 原稿依赖 UA 默认的 section { position: relative }，preflight 未重置该项但为一致性显式声明 */
+  section {
+    position: relative;
+  }
+}
+
+/* ==========================================================================
+   自定义工具类
+   ========================================================================== */
+@utility wrap {
+  position: relative;
+  z-index: 1;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+/* 等宽小字标签：0.7rem / 0.14em / 大写 */
+@utility mono {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   组件层 —— 仅保留伪元素、动画与联动悬停等工具类难以表达的部分
+   ========================================================================== */
+@layer components {
+  /* ---------- 背景：纵向导引线 ---------- */
+  .guides {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding-inline: var(--pad);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .guides i {
+    border-left: 1px solid var(--color-rule);
+    opacity: 0.55;
+  }
+  .guides i:last-child {
+    border-right: 1px solid var(--color-rule);
+  }
+
+  /* ---------- 背景：颗粒噪点 ---------- */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 8;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0.42;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+    background-size: 180px;
+  }
+
+  /* ---------- 小标题：文字后接一条填充余宽的细线 ---------- */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--color-inkfade);
+    /* 原稿只写了 margin-bottom，顶部留白来自 UA 的 p { margin: 1em 0 }；preflight 会清零，需显式还原 */
+    margin: 1em 0 1.4rem;
+  }
+  .eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-rule);
+  }
+
+  /* ---------- 顶栏：在招状态脉冲点 ---------- */
+  .status i {
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(0.75);
+    }
+  }
+
+  /* ---------- 按钮：色块自下而上扫过 ---------- */
+  .btn {
+    position: relative;
+    overflow: hidden;
+    transition: color 0.35s ease;
+  }
+  .btn > span {
+    position: relative;
+    z-index: 1;
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-ink);
+    transform: translateY(101%);
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .btn:hover {
+    color: var(--color-paper);
+  }
+  .btn:hover::before {
+    transform: translateY(0);
+  }
+  .btn--solid {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .btn--solid::before {
+    background: var(--color-accent);
+  }
+  .btn--solid:hover {
+    color: var(--color-paper);
+  }
+  .btn .arw {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.35s ease;
+  }
+  .btn:hover .arw {
+    transform: translateX(4px);
+  }
+
+  /* ---------- 英雄区信息卡：登记章 ---------- */
+  .stamp {
+    position: absolute;
+    right: -1.1rem;
+    bottom: -1.3rem;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+    padding: 0.4rem 0.8rem;
+    transform: rotate(-7deg);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+    line-height: 1.5;
+    background: color-mix(in srgb, var(--color-paper) 70%, transparent);
+    text-align: center;
+  }
+  .stamp::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid var(--color-accent);
+    opacity: 0.5;
+  }
+
+  /* ---------- 数据带：数字右上角单位（preflight 把 sup 改成了 75% 字号 / line-height:0 / relative+bottom，需整体还原） ---------- */
+  .stat-unit {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    color: var(--color-accent);
+    /* 与父级 .stat 数字的 leading-[0.9] 一致：原稿是单位数继承，此处需显式声明以盖掉 preflight 的 line-height:0 */
+    line-height: 0.9;
+    position: static;
+    vertical-align: super;
+  }
+
+  /* ---------- 站点导览：整行墨色填充 ---------- */
+  .index__link {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) minmax(0, auto) 40px;
+    align-items: center;
+    gap: clamp(0.8rem, 2.5vw, 2.5rem);
+    padding: clamp(1.1rem, 2.4vw, 1.7rem) clamp(0.4rem, 1.5vw, 1.2rem);
+    position: relative;
+    transition:
+      color 0.4s ease,
+      padding-left 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .index__link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-ink);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: -1;
+  }
+  .index__link:hover,
+  .index__link:focus-visible {
+    color: var(--color-paper);
+    padding-left: clamp(1rem, 3vw, 2.2rem);
+  }
+  .index__link:hover::before,
+  .index__link:focus-visible::before {
+    transform: scaleY(1);
+  }
+  .index__num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    transition: color 0.4s;
+  }
+  .index__link:hover .index__num {
+    color: var(--color-paper);
+  }
+  .index__main {
+    min-width: 0;
+  }
+  .index__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3.6vw, 2.4rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+  .index__title small {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--color-inkfade);
+    text-transform: uppercase;
+    transition: color 0.4s;
+  }
+  .index__link:hover .index__title small {
+    color: color-mix(in srgb, var(--color-paper) 62%, transparent);
+  }
+  .index__desc {
+    margin: 0.45rem 0 0;
+    color: var(--color-inksoft);
+    font-size: 0.92rem;
+    max-width: 44em;
+    transition: color 0.4s;
+  }
+  .index__link:hover .index__desc {
+    color: color-mix(in srgb, var(--color-paper) 78%, transparent);
+  }
+  .index__meta {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-end;
+  }
+  .index__domain {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .index__tags {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .index__tag {
+    display: inline-flex;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: 99px;
+    padding: 0.05rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-inkfade);
+    transition: 0.4s;
+  }
+  .index__link:hover .index__tag {
+    border-color: color-mix(in srgb, var(--color-paper) 40%, transparent);
+    color: color-mix(in srgb, var(--color-paper) 70%, transparent);
+  }
+  .index__arw {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    justify-self: end;
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .index__link:hover .index__arw {
+    transform: translateX(8px);
+  }
+  /* 行由 button 承载操作（打电话）时重置按钮默认样式 */
+  button.index__link {
+    width: 100%;
+    background: none;
+    border: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  /* 未上线：不可点击 */
+  .index__link--soon,
+  .index__link--soon:hover,
+  .index__link--soon:focus-visible {
+    cursor: not-allowed;
+    color: var(--color-inkfade);
+    padding-left: clamp(0.4rem, 1.5vw, 1.2rem);
+  }
+  .index__link--soon::before {
+    display: none;
+  }
+  .index__link--soon .index__title,
+  .index__link--soon .index__num,
+  .index__link--soon .index__desc,
+  .index__link--soon .index__domain,
+  .index__link--soon .index__title small {
+    color: var(--color-inkfade);
+  }
+  .index__link--soon:hover .index__arw {
+    transform: none;
+    color: var(--color-inkfade);
+  }
+  .index__tag--soon {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    opacity: 0.75;
+  }
+
+  /* ---------- 深色数据带：跑马灯 ---------- */
+  .marquee__track {
+    animation: slide 34s linear infinite;
+  }
+  .marquee__track b {
+    color: var(--color-accent);
+    font-weight: 400;
+  }
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+  @keyframes slide {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ---------- 联系：邮箱下划线展开 ---------- */
+  .mail::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 2px;
+    width: 100%;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .mail:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ---------- 复制提示 ---------- */
+  .toast {
+    opacity: 0;
+    transform: translate(-50%, 1.5rem);
+    pointer-events: none;
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .toast.is-show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  /* ---------- 滚动入场 ---------- */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--d, 0ms);
+  }
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   响应式
+   ========================================================================== */
+@media (max-width: 960px) {
+  .guides {
+    display: none;
+  }
+  .stamp {
+    right: 0.6rem;
+    bottom: -1.1rem;
+  }
+  .index__link {
+    grid-template-columns: 38px minmax(0, 1fr) 24px;
+    gap: 0.9rem;
+  }
+  .index__meta {
+    display: none;
+  }
+  .index__link:hover,
+  .index__link:focus-visible {
+    padding-left: 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .marquee__track {
+    animation: none;
+  }
+  .status i {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

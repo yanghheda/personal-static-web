@@ -1,0 +1,122 @@
+# =========================================================================
+# 基础设施层（infra）：边缘 nginx + MySQL + Redis + Qdrant
+# 服务器部署位置：/opt/infra
+# 首次部署前需先创建共享网络：  docker network create infra-net
+# 复制 .env.example → .env 并填入强随机密码后再启动。
+# =========================================================================
+
+name: infra
+
+# 日志轮转：所有容器统一限制，避免长期运行把磁盘写满
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+# infra-net 为外部共享网络：基础设施与所有业务项目都挂在这张网上，
+# 业务项目用自己的 compose 以 external 方式加入，并通过服务别名互相访问。
+networks:
+  infra-net:
+    external: true
+
+# 数据持久化：数据都在 named volume 里，docker compose down 不会丢数据
+volumes:
+  mysql_data:
+  redis_data:
+  qdrant_data:
+
+services:
+  # -------------------------------------------------------------------
+  # 边缘统一入口：唯一占用宿主机 80/443 的服务，按域名/路径把流量分发给各项目
+  # -------------------------------------------------------------------
+  nginx:
+    image: nginx:1.30-alpine            # stable 1.30.x（2026-09 最新稳定线）
+    container_name: infra-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"                        # HTTPS：证书签发后启用 443 server 块
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro        # 站点 / 反代配置
+      - /var/www/yjxai:/var/www/yjxai:ro           # 静态站点目录（CI rsync 写入）
+      # Let's Encrypt 相关（certbot 以 webroot 模式签发，见 README 第四节）
+      - ./certbot/www:/var/www/certbot:ro          # ACME 挑战目录：certbot 写、nginx 只读
+      - ./certbot/conf:/etc/letsencrypt:ro         # 证书目录：签发成功后挂载给 nginx
+    networks:
+      - infra-net
+    logging: *default-logging
+
+  # -------------------------------------------------------------------
+  # MySQL 8.4 LTS：多项目共享数据库，仅监听 Docker 内网
+  # -------------------------------------------------------------------
+  mysql:
+    image: mysql:8.4                    # 8.4 LTS，兼容性最广，支持到 ~2032
+    container_name: infra-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: ${TZ:-Asia/Shanghai}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      infra-net:
+        aliases:
+          - mysql                       # 其它项目连 mysql:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    logging: *default-logging
+    # 本地调试如需直接连库，取消注释（仅绑定本机回环，不对公网开放）：
+    # ports:
+    #   - "127.0.0.1:3306:3306"
+
+  # -------------------------------------------------------------------
+  # Redis：缓存 / 会话 / 队列
+  # -------------------------------------------------------------------
+  redis:
+    image: redis:8-alpine               # 8.x 最新稳定大版本
+    container_name: infra-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
+    volumes:
+      - redis_data:/data
+    networks:
+      infra-net:
+        aliases:
+          - redis                       # 其它项目连 redis:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging: *default-logging
+    # ports:
+    #   - "127.0.0.1:6379:6379"
+
+  # -------------------------------------------------------------------
+  # Qdrant：向量数据库（RAG / 语义检索项目使用）
+  # -------------------------------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:v1.19.0        # 1.19 最新稳定
+    container_name: infra-qdrant
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY}
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      infra-net:
+        aliases:
+          - qdrant                      # 其它项目连 qdrant:6333
+    logging: *default-logging
+    # 单机运行，健康检查由业务项目按需添加
+    # 本地查看 Dashboard / REST：取消注释（仅本机回环）
+    # ports:
+    #   - "127.0.0.1:6333:6333"
