@@ -246,3 +246,12 @@ docker compose exec mysql mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" --all-databa
 - 证书目录 `certbot/conf` 含私钥，注意权限与备份。certbot 会把 `live/` 建成 `700 root:root`，
   所以 `deploy` 用户 `ls` 会 Permission denied —— 属正常现象（nginx 容器内是 root，能正常读取），
   需要查看时用 root 或 `docker compose exec nginx ls /etc/letsencrypt/live/yjxai.cloud/`。
+
+  ## 十一、常用运维命名
+
+```bash
+ssh -i ~/.ssh/yjxai_deploy deploy@115.159.84.51          # 登录
+docker compose -f /opt/infra/docker-compose.yml ps        # 容器状态
+docker logs -f infra-nginx                                # nginx 日志
+fail2ban-client status sshd                               # 封禁情况（需 root）
+```
