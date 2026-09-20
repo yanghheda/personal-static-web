@@ -164,14 +164,23 @@ docker compose exec nginx nginx -s reload
 
 ```bash
 # 3) 自动续期：Let's Encrypt 证书 90 天有效，certbot 会在到期前 30 天自动续
-#    已装在 deploy 用户的 crontab（该用户在 docker 组内，无需 root）：
-#      crontab -l    # 查看
-#      crontab -e    # 修改
+#    装在 root 的 crontab（需要 root 才能读写证书目录、操作容器）：
+#      sudo crontab -l    # 查看
+#      sudo crontab -e    # 修改
 #    实际安装的内容（每天 03:00 尝试续期，成功后重载 nginx）：
-0 3 * * * cd /opt/infra && /usr/bin/docker run --rm -v /opt/infra/certbot/conf:/etc/letsencrypt -v /opt/infra/certbot/www:/var/www/certbot certbot/certbot renew --webroot -w /var/www/certbot --quiet && /usr/bin/docker exec infra-nginx nginx -s reload
+0 3 * * * cd /opt/infra && docker run --rm -v /opt/infra/certbot/conf:/etc/letsencrypt -v /opt/infra/certbot/www:/var/www/certbot certbot/certbot renew --webroot -w /var/www/certbot --quiet && docker exec infra-nginx nginx -s reload
 
 # 演练一次，确认续期链路通（不会真的续期）
-docker run --rm -v /opt/infra/certbot/conf:/etc/letsencrypt -v /opt/infra/certbot/www:/var/www/certbot certbot/certbot renew --webroot -w /var/www/certbot --dry-run
+#
+# ⚠️ 注意「假卡死」：certbot 在非交互环境（cron，或 docker run 未带 -t）下会先随机睡
+#    0~8 分钟再动手，只打印一行
+#      Non-interactive renewal: random delay of 437.37 seconds
+#    之后就长时间没有任何输出，看起来像卡死，其实是官方刻意设计——打散全球用户的
+#    续期请求，避免同一时刻集中冲击 Let's Encrypt。所以：
+#      · 手工演练：加 --no-random-sleep-on-renew 跳过等待
+#      · cron 任务：保持默认，不要加该参数（延迟对定时任务是好事）
+#    另外 --dry-run 走的是测试环境，那里没有你的账号，需补 --agree-tos 以免卡在注册环节。
+docker run --rm -v /opt/infra/certbot/conf:/etc/letsencrypt -v /opt/infra/certbot/www:/var/www/certbot certbot/certbot renew --webroot -w /var/www/certbot --dry-run --agree-tos --no-random-sleep-on-renew
 ```
 
 ## 五、验证

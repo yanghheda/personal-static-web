@@ -456,6 +456,109 @@
 }
 
 /* ==========================================================================
+   首页增强 —— 全部限定在 .home 作用域，不影响简历 / 项目页
+   ========================================================================== */
+@layer components {
+  /* ---------- 英雄区大标题：分行遮罩升起 ---------- */
+  .home .hero-line {
+    display: block;
+    overflow: hidden;
+    /* 上下补白防止 leading<1 时裁掉字形与下划线，再用负 margin 抵消布局影响 */
+    padding-block: 0.08em 0.06em;
+    margin-block: -0.08em -0.06em;
+  }
+  /* 第二行带手绘下划线，需要更多底部空间 */
+  .home .hero-line--uline {
+    padding-bottom: 0.3em;
+    margin-bottom: -0.3em;
+  }
+  .home .hero-line__in {
+    display: block;
+    transform: translateY(112%);
+    animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+  }
+  .home .hero-line:nth-child(2) .hero-line__in {
+    animation-delay: 0.18s;
+  }
+  @keyframes hero-rise {
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* ---------- “工程师”手绘下划线：描边自绘 ---------- */
+  .home .hero-em {
+    position: relative;
+  }
+  .home .hero-uline {
+    position: absolute;
+    left: -0.06em;
+    bottom: -0.14em;
+    width: 112%;
+    height: 0.22em;
+    color: var(--color-accent);
+    overflow: visible;
+  }
+  .home .hero-uline path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: hero-draw 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.85s forwards;
+  }
+  @keyframes hero-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* ---------- 英文标语：打字机光标 ---------- */
+  .home .hero-caret {
+    display: inline-block;
+    width: 0.5em;
+    height: 0.95em;
+    margin-left: 0.1em;
+    vertical-align: -0.14em;
+    background: var(--color-accent);
+    animation: caret-blink 1.05s steps(1) infinite;
+  }
+  @keyframes caret-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* ---------- 信息卡：悬停微倾斜 ---------- */
+  .home .home-tilt {
+    transition: transform 0.35s ease;
+    will-change: transform;
+  }
+
+  /* ---------- eyebrow 细线随入场生长 ---------- */
+  .js .home .eyebrow::after {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+  }
+  .js .home .eyebrow.is-in::after {
+    transform: scaleX(1);
+  }
+
+  /* ---------- 登记章：盖章入场 ---------- */
+  .home .stamp {
+    animation: stamp-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 1.05s both;
+  }
+  @keyframes stamp-in {
+    from {
+      opacity: 0;
+      transform: rotate(-16deg) scale(1.5);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(-7deg) scale(1);
+    }
+  }
+}
+
+/* ==========================================================================
    响应式
    ========================================================================== */
 @media (max-width: 960px) {
@@ -493,6 +596,23 @@
   }
   .status i {
     animation: none;
+  }
+  /* 首页增强：直接呈现最终状态 */
+  .home .hero-line__in {
+    animation: none;
+    transform: none;
+  }
+  .home .hero-uline path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .home .hero-caret,
+  .home .stamp {
+    animation: none;
+  }
+  .js .home .eyebrow::after {
+    transform: none;
+    transition: none;
   }
   * {
     transition-duration: 0.01ms !important;

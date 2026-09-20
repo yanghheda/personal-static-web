@@ -1,13 +1,48 @@
 <script setup>
+import { onMounted, ref } from 'vue'
 import LocalClock from '@/components/LocalClock.vue'
 import { navIndex, nowItems, site, stats } from '@/data/site'
 import { useContact } from '@/composables/useContact'
 
 const { masked, handleCall, handleCopy } = useContact()
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/* 英文标语打字机：等标题升起后开始逐字敲入，光标常驻闪烁 */
+const taglineText = ref(null)
+const TAGLINE = 'I build AI products that actually ship.'
+
+onMounted(() => {
+  if (reduceMotion || !taglineText.value) return
+  const el = taglineText.value
+  el.textContent = ''
+  let i = 0
+  const type = () => {
+    el.textContent = TAGLINE.slice(0, ++i)
+    if (i < TAGLINE.length) setTimeout(type, 30 + Math.random() * 55)
+  }
+  setTimeout(type, 850)
+})
+
+/* 信息卡悬停微倾斜（仅精确指针设备） */
+const tiltCard = ref(null)
+const finePointer = window.matchMedia('(pointer: fine)').matches
+
+function onTiltMove(e) {
+  if (reduceMotion || !finePointer || !tiltCard.value) return
+  const r = tiltCard.value.getBoundingClientRect()
+  const x = (e.clientX - r.left) / r.width - 0.5
+  const y = (e.clientY - r.top) / r.height - 0.5
+  tiltCard.value.style.transform = `perspective(900px) rotateX(${(-y * 4).toFixed(2)}deg) rotateY(${(x * 5).toFixed(2)}deg)`
+}
+
+function onTiltLeave() {
+  if (tiltCard.value) tiltCard.value.style.transform = ''
+}
 </script>
 
 <template>
-  <main class="wrap">
+  <main class="home wrap">
     <!-- ========== 00 英雄区 ========== -->
     <section class="pt-[calc(var(--topbar-h)+clamp(3rem,9vw,7rem))] pb-[clamp(3rem,7vw,6rem)]">
       <div
@@ -17,15 +52,19 @@ const { masked, handleCall, handleCopy } = useContact()
           <p class="eyebrow mono" v-reveal>00 — 你好，我是 杨佳锡</p>
           <h1
             class="mt-0 mb-[1.1rem] font-serif text-[clamp(2.7rem,7.6vw,6.2rem)] leading-[0.98] font-normal tracking-[-0.025em] text-balance"
-            v-reveal="80"
           >
-            AI 全栈<br />开发<em class="text-accent">工程师</em>
+            <span class="hero-line"><span class="hero-line__in">AI 全栈</span></span>
+            <span class="hero-line hero-line--uline"
+              ><span class="hero-line__in"
+                >开发<em class="text-accent hero-em"
+                  >工程师<svg class="hero-uline" viewBox="0 0 200 12" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9C52 3.5 148 2.5 197 7" stroke="currentColor" stroke-width="4" stroke-linecap="round" pathLength="1" /></svg></em></span
+            ></span>
           </h1>
           <p
             class="mt-0 mb-[1.6rem] font-serif text-[clamp(1.05rem,2vw,1.5rem)] italic tracking-[0.005em] text-inksoft"
             v-reveal="160"
           >
-            I build AI products that actually ship.
+            <span ref="taglineText">I build AI products that actually ship.</span><span class="hero-caret" aria-hidden="true"></span>
           </p>
           <p class="mt-0 mb-[2.2rem] max-w-[34em] text-[1.02rem] text-inksoft" v-reveal="220">
             <b class="font-semibold text-ink">2 年前端工程</b>经验，<b class="font-semibold text-ink">7 个月 AI 应用开发</b>经验。熟悉 Vue / React 前端工程与 Java 后端体系， 了解 LangChain、RAG 与 MCP 工具生态，擅长把大模型能力落进真正可用、别人愿意用的产品界面里。
@@ -46,10 +85,13 @@ const { masked, handleCall, handleCopy } = useContact()
           </div>
         </div>
 
-        <aside
-          class="relative mt-[clamp(0.5rem,4vw,3rem)] border border-ink bg-paper2 px-[1.4rem] pt-[1.4rem] pb-[1.1rem] shadow-[10px_10px_0_rgba(21,18,14,0.09)] max-[960px]:mt-0"
-          v-reveal="260"
-        >
+        <div class="relative mt-[clamp(0.5rem,4vw,3rem)] max-[960px]:mt-0" v-reveal="260">
+          <aside
+            ref="tiltCard"
+            class="home-tilt relative border border-ink bg-paper2 px-[1.4rem] pt-[1.4rem] pb-[1.1rem] shadow-[10px_10px_0_rgba(21,18,14,0.09)]"
+            @pointermove="onTiltMove"
+            @pointerleave="onTiltLeave"
+          >
           <div class="mono flex justify-between gap-4 border-b border-rule pb-[0.85rem] text-inkfade">
             <span>PORTAL / v1.0</span><span>CN · UTC+8</span>
           </div>
@@ -75,7 +117,8 @@ const { masked, handleCall, handleCopy } = useContact()
             </div>
           </dl>
           <div class="stamp">求职中<br />OPEN TO WORK</div>
-        </aside>
+          </aside>
+        </div>
       </div>
     </section>
 
@@ -92,7 +135,7 @@ const { masked, handleCall, handleCopy } = useContact()
         <li v-for="(item, i) in navIndex" :key="item.num" class="index__item border-b border-rule" v-reveal="i * 60">
           <!-- 站内路由 -->
           <RouterLink v-if="item.to" class="index__link" :to="item.to">
-            <span class="index__num">{{ item.num }}</span>
+            <span class="index__num" v-scramble>{{ item.num }}</span>
             <span class="index__main">
               <span class="index__title">{{ item.title }} <small>{{ item.en }}</small></span>
               <span class="index__desc">{{ item.desc }}</span>
@@ -108,7 +151,7 @@ const { masked, handleCall, handleCopy } = useContact()
 
           <!-- 电话：桌面端点击复制，移动端唤起拨号 -->
           <button v-else-if="item.action === 'call'" class="index__link" type="button" @click="handleCall">
-            <span class="index__num">{{ item.num }}</span>
+            <span class="index__num" v-scramble>{{ item.num }}</span>
             <span class="index__main">
               <span class="index__title">{{ item.title }} <small>{{ item.en }}</small></span>
               <span class="index__desc">{{ item.desc }}</span>
@@ -143,7 +186,7 @@ const { masked, handleCall, handleCopy } = useContact()
   </main>
 
   <!-- ========== 02 数据带 ========== -->
-  <section class="border-t border-ink bg-ink pt-[clamp(3.5rem,8vw,6rem)] pb-0 text-paper">
+  <section class="home border-t border-ink bg-ink pt-[clamp(3.5rem,8vw,6rem)] pb-0 text-paper">
     <div class="wrap">
       <div class="mb-[clamp(2rem,5vw,3.2rem)] flex flex-wrap items-baseline gap-4" v-reveal>
         <span class="mono text-accent">02</span>
@@ -159,7 +202,7 @@ const { masked, handleCall, handleCopy } = useContact()
       >
         <div v-for="s in stats" :key="s.n" class="bg-ink px-[clamp(1rem,2vw,1.6rem)] py-[clamp(1.5rem,4vw,2.6rem)]">
           <div class="flex items-baseline gap-[0.3rem] font-serif text-[clamp(3rem,8vw,5.4rem)] leading-[0.9] tracking-[-0.04em]">
-            {{ s.n }}<sup class="stat-unit">{{ s.unit }}</sup>
+            <span v-countup="s.n">{{ s.n }}</span><sup class="stat-unit">{{ s.unit }}</sup>
           </div>
           <!-- mb-[1em]：原稿只设了 margin-top，底部留白来自 UA 的 p { margin-block-end: 1em }（= 0.88rem 即 14.08px） -->
           <p class="mt-[0.9rem] mb-[1em] max-w-[22em] text-[0.88rem] text-[rgba(239,235,227,0.62)]">{{ s.label }}</p>
@@ -185,7 +228,7 @@ const { masked, handleCall, handleCopy } = useContact()
     </div>
   </section>
 
-  <main class="wrap">
+  <main class="home wrap">
     <!-- ========== 03 近况 ========== -->
     <section id="now" class="border-t border-rule py-[clamp(3.5rem,8vw,6.5rem)]">
       <div class="mb-[clamp(1.6rem,4vw,3rem)] flex flex-wrap items-baseline gap-4" v-reveal>
