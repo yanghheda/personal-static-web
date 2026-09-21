@@ -1,17 +1,19 @@
 /**
  * v-scramble —— 悬停时文本字符从随机符号逐位还原（终端扰码效果）
- * 用在站点导览编号上：监听最近 .index__link 祖先的 mouseenter 触发
+ * 默认监听最近 .index__link 祖先的 mouseenter 触发；
+ * 也可传宿主选择器指定触发元素，如 v-scramble="'.resume-sec'"
  * prefers-reduced-motion 时不注册
  */
 
 const POOL = '!<>-_\\/[]{}—=+*^?#01'
 
 export const scramble = {
-  mounted(el) {
+  mounted(el, binding) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const original = el.textContent
-    const host = el.closest('.index__link') || el
+    const host =
+      (binding.value && el.closest(binding.value)) || el.closest('.index__link') || el
     let raf = 0
 
     const run = () => {

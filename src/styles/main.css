@@ -559,6 +559,118 @@
 }
 
 /* ==========================================================================
+   简历页增强 —— 全部限定在 .resume 作用域，不影响首页 / 项目页
+   复用首页已定义的 caret-blink / stamp-in 关键帧
+   ========================================================================== */
+@layer components {
+  /* ---------- 抬头姓名：遮罩升起 ---------- */
+  .resume .resume-line {
+    display: block;
+    overflow: hidden;
+    /* 上下补白防止 leading<1 时裁掉字形，再用负 margin 抵消布局影响 */
+    padding-block: 0.08em 0.06em;
+    margin-block: -0.08em -0.06em;
+  }
+  .resume .resume-line__in {
+    display: block;
+    transform: translateY(112%);
+    animation: resume-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+  }
+  @keyframes resume-rise {
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* ---------- 求职意向：手绘下划线描边自绘 ---------- */
+  .resume .resume-em {
+    position: relative;
+  }
+  .resume .resume-uline {
+    position: absolute;
+    left: -0.04em;
+    bottom: -0.16em;
+    width: 108%;
+    height: 0.22em;
+    color: var(--color-accent);
+    overflow: visible;
+  }
+  .resume .resume-uline path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: resume-draw 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.8s forwards;
+  }
+  @keyframes resume-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* ---------- lede 标语：打字机光标 ---------- */
+  .resume .resume-caret {
+    display: inline-block;
+    width: 0.5em;
+    height: 0.95em;
+    margin-left: 0.1em;
+    vertical-align: -0.14em;
+    background: var(--color-accent);
+    animation: caret-blink 1.05s steps(1) infinite;
+  }
+
+  /* ---------- 联系方式卡：悬停微倾斜 + 盖章入场 ---------- */
+  .resume .resume-tilt {
+    transition: transform 0.35s ease;
+    will-change: transform;
+  }
+  .resume .resume-stamp {
+    animation: stamp-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 1s both;
+  }
+
+  /* ---------- eyebrow 细线随入场生长（自身或祖先 .is-in 均可触发） ---------- */
+  .js .resume .eyebrow::after {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+  }
+  .js .resume .eyebrow.is-in::after,
+  .js .resume .is-in .eyebrow::after {
+    transform: scaleX(1);
+  }
+
+  /* ---------- 经历 / 项目条目：悬停时上边框加深、周期点亮 ---------- */
+  .resume .resume-job,
+  .resume .resume-proj {
+    transition: border-color 0.4s ease;
+  }
+  .resume .resume-job:hover,
+  .resume .resume-proj:hover {
+    border-top-color: var(--color-ink);
+  }
+  .resume .resume-period {
+    transition: color 0.4s ease;
+  }
+  .resume .resume-job:hover .resume-period,
+  .resume .resume-proj:hover .resume-period {
+    color: var(--color-accent);
+  }
+
+  /* ---------- 技能 / 技术标签：悬停墨色填充，hot 标签填 accent ---------- */
+  .resume .resume-tag {
+    cursor: default;
+  }
+  .resume .resume-tag:hover {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .resume .resume-tag--hot:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-paper);
+  }
+}
+
+/* ==========================================================================
    响应式
    ========================================================================== */
 @media (max-width: 960px) {
@@ -614,7 +726,33 @@
     transform: none;
     transition: none;
   }
+  /* 简历页增强：直接呈现最终状态 */
+  .resume .resume-line__in {
+    animation: none;
+    transform: none;
+  }
+  .resume .resume-uline path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .resume .resume-caret,
+  .resume .resume-stamp {
+    animation: none;
+  }
+  .js .resume .eyebrow::after {
+    transform: none;
+    transition: none;
+  }
   * {
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   打印 —— 隐藏标记了 no-print 的装饰 / 交互元素（顶栏、目录、进度条、光标等）
+   ========================================================================== */
+@media print {
+  .no-print {
+    display: none !important;
   }
 }
