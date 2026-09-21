@@ -34,6 +34,12 @@ const routes = [
     meta: { title: 'HengPick · AI 智能购物决策 — YJX', immersive: true },
   },
   {
+    path: '/engineering',
+    name: 'engineering',
+    component: () => import('@/views/EngineeringView.vue'),
+    meta: { title: '工程实录 · AI 协作 — YJX' },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('@/views/NotFoundView.vue'),
