@@ -10,7 +10,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 
 /* 英文标语打字机：等标题升起后开始逐字敲入，光标常驻闪烁 */
 const taglineText = ref(null)
-const TAGLINE = 'I build AI products that actually ship.'
+const TAGLINE = 'From frontend craft to AI applications.'
 
 onMounted(() => {
   if (reduceMotion || !taglineText.value) return
@@ -64,10 +64,10 @@ function onTiltLeave() {
             class="mt-0 mb-[1.6rem] font-serif text-[clamp(1.05rem,2vw,1.5rem)] italic tracking-[0.005em] text-inksoft"
             v-reveal="160"
           >
-            <span ref="taglineText">I build AI products that actually ship.</span><span class="hero-caret" aria-hidden="true"></span>
+            <span ref="taglineText">From frontend craft to AI applications.</span><span class="hero-caret" aria-hidden="true"></span>
           </p>
           <p class="mt-0 mb-[2.2rem] max-w-[34em] text-[1.02rem] text-inksoft" v-reveal="220">
-            <b class="font-semibold text-ink">2 年前端工程</b>经验，<b class="font-semibold text-ink">7 个月 AI 应用开发</b>经验。熟悉 Vue / React 前端工程与 Java 后端体系， 了解 LangChain、RAG 与 MCP 工具生态，擅长把大模型能力落进真正可用、别人愿意用的产品界面里。
+            <b class="font-semibold text-ink">约 2 年电商前端</b>经验，<b class="font-semibold text-ink">7 个月 AI 应用开发</b>经历。在 iFinD AI Chat 中负责专家模式前端交互改造，参与 Agent 能力接入；通过 ForgeAI 与 HengPick 两个已部署项目，拓展 Java / Python 全栈与 Agent 编排实践。
           </p>
           <div class="flex flex-wrap gap-[0.7rem]" v-reveal="300">
             <RouterLink
@@ -109,7 +109,7 @@ function onTiltLeave() {
             </div>
             <div class="flex items-baseline justify-between gap-4 border-b border-rule py-[0.6rem] last:border-b-0">
               <dt class="mono text-inkfade">Focus</dt>
-              <dd class="m-0 font-mono text-[0.72rem] tracking-[0.06em]">前端 / Java / Agent</dd>
+              <dd class="m-0 font-mono text-[0.72rem] tracking-[0.06em]">React / Java / Agent</dd>
             </div>
             <div class="flex items-baseline justify-between gap-4 border-b border-rule py-[0.6rem] last:border-b-0">
               <dt class="mono text-inkfade">Base</dt>
@@ -216,13 +216,13 @@ function onTiltLeave() {
         <div
           class="marquee__track flex gap-[2.6rem] pr-[2.6rem] font-mono text-[0.76rem] tracking-[0.16em] whitespace-nowrap uppercase text-[rgba(239,235,227,0.55)]"
         >
-          <span>Vue <b>/</b> React <b>/</b> TypeScript <b>/</b> Vite <b>/</b> Tailwind</span>
+          <span>React <b>/</b> TypeScript <b>/</b> Next.js <b>/</b> React Native <b>/</b> Vite</span>
           <span>Java <b>/</b> Spring Boot <b>/</b> MySQL <b>/</b> Redis <b>/</b> Docker</span>
-          <span>Python <b>/</b> LangChain <b>/</b> RAG <b>/</b> MCP <b>/</b> Agent</span>
+          <span>Python <b>/</b> FastAPI <b>/</b> LangGraph <b>/</b> Qdrant <b>/</b> Agent</span>
           <!-- 重复一遍以实现无缝循环 -->
-          <span>Vue <b>/</b> React <b>/</b> TypeScript <b>/</b> Vite <b>/</b> Tailwind</span>
+          <span>React <b>/</b> TypeScript <b>/</b> Next.js <b>/</b> React Native <b>/</b> Vite</span>
           <span>Java <b>/</b> Spring Boot <b>/</b> MySQL <b>/</b> Redis <b>/</b> Docker</span>
-          <span>Python <b>/</b> LangChain <b>/</b> RAG <b>/</b> MCP <b>/</b> Agent</span>
+          <span>Python <b>/</b> FastAPI <b>/</b> LangGraph <b>/</b> Qdrant <b>/</b> Agent</span>
         </div>
       </div>
     </div>

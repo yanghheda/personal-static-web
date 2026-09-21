@@ -14,10 +14,10 @@ import { projects } from '@/data/site'
         项目<em class="text-accent">与作品</em>
       </h1>
       <p class="mt-0 mb-[1.6rem] font-serif text-[clamp(1.05rem,2vw,1.5rem)] italic tracking-[0.005em] text-inksoft" v-reveal="160">
-        Things I designed and shipped end to end.
+        Personal projects connecting AI with business workflows.
       </p>
       <p class="mt-0 max-w-[34em] text-[1.02rem] text-inksoft" v-reveal="220">
-        以下项目均由我<b class="font-semibold text-ink">独立完成从 0 到 1 的设计、开发与部署</b>。技术选型、架构边界与关键取舍写在每个项目下方，可按需索取在线演示与源码讲解。
+        以下是我的<b class="font-semibold text-ink">两个已部署的个人全栈项目</b>：ForgeAI 聚焦研发交付流程与受控工具调用，HengPick 聚焦跨端购物决策与业务规则。下方介绍关键实现与演示范围，可按需索取项目演示与源码讲解。
       </p>
     </section>
 
