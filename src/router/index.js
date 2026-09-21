@@ -20,6 +20,20 @@ const routes = [
     meta: { title: '项目 · Projects — YJX' },
   },
   {
+    path: '/projects/forgeai',
+    name: 'project-forgeai',
+    component: () => import('@/views/ProjectDetailView.vue'),
+    props: { slug: 'forgeai' },
+    meta: { title: 'ForgeAI · AI 研发交付工作台 — YJX', immersive: true },
+  },
+  {
+    path: '/projects/hengpick',
+    name: 'project-hengpick',
+    component: () => import('@/views/ProjectDetailView.vue'),
+    props: { slug: 'hengpick' },
+    meta: { title: 'HengPick · AI 智能购物决策 — YJX', immersive: true },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('@/views/NotFoundView.vue'),

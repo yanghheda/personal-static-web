@@ -117,6 +117,7 @@ export const resume = {
   projects: [
     {
       num: '01',
+      slug: 'forgeai',
       name: 'ForgeAI · AI 研发交付工作台',
       role: '全栈开发',
       period: '个人项目',
@@ -136,6 +137,7 @@ export const resume = {
     },
     {
       num: '02',
+      slug: 'hengpick',
       name: 'HengPick · AI 智能购物决策',
       role: '全栈开发',
       period: '个人项目',

@@ -1,6 +1,7 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { resume } from '@/data/resume'
+import ProjectStoryLink from '@/components/projects/ProjectStoryLink.vue'
 import { useContact } from '@/composables/useContact'
 
 const { masked, handleCall, handleCopy } = useContact()
@@ -355,6 +356,7 @@ onBeforeUnmount(() => {
               </template>
             </li>
           </ul>
+          <ProjectStoryLink :slug="p.slug" class="no-print" />
         </article>
 
         <p class="mt-[clamp(1.5rem,3vw,2.2rem)] mb-0 border-t border-dashed border-rule pt-[0.9rem] text-center font-mono text-[0.68rem] tracking-[0.04em] text-inkfade"
