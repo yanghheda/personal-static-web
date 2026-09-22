@@ -13,6 +13,11 @@ export const site = {
   github: 'https://github.com/yanghheda',
   phoneBase64: 'MTM5NDQyNTgwOTA=',
   icp: '吉ICP备2026009438号-1',
+  police: {
+    code: '吉公网安备22022102000169号',
+    link: 'https://beian.mps.gov.cn/#/query/webSearch?code=22022102000169',
+    icon: '/asset/police.webp',
+  },
 };
 
 export const navIndex = [
