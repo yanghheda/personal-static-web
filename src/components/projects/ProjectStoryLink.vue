@@ -42,9 +42,9 @@ const project = computed(() => projectStories[props.slug])
   box-shadow: 0 12px 30px #15120e14;
 }
 
-.project-story-link--hengpick {
-  background: #dfe7cf;
-  color: #31472f;
+.project-story-link--mealmind {
+  background: #f7e3cd;
+  color: #6b3a15;
 }
 
 .project-story-icon {
@@ -61,10 +61,10 @@ const project = computed(() => projectStories[props.slug])
   transform: rotate(-8deg);
 }
 
-.project-story-link--hengpick .project-story-icon {
+.project-story-link--mealmind .project-story-icon {
   background: #fff5;
-  border-color: #55733d20;
-  color: #61834b;
+  border-color: #c9803f20;
+  color: #c9702e;
 }
 
 .project-story-label {

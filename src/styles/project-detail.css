@@ -17,15 +17,15 @@
   overflow: clip;
 }
 
-.project-detail.theme-heng {
-  --bg: #f7f8f2;
+.project-detail.theme-meal {
+  --bg: #fbf6ee;
   --surface: #fff;
-  --surface-alt: #eef1e7;
-  --fg: #20372d;
-  --muted: #68766c;
-  --line: #20372d20;
-  --key: #48703c;
-  --key-rgb: 117, 149, 73;
+  --surface-alt: #f6ebdc;
+  --fg: #3b2a1e;
+  --muted: #7c6a59;
+  --line: #3b2a1e20;
+  --key: #c7702c;
+  --key-rgb: 199, 112, 44;
 }
 
 .project-detail button, .project-detail a {
@@ -201,8 +201,8 @@
   background-clip: text;
 }
 
-.theme-heng .hero-highlight {
-  background-image: linear-gradient(100deg, #304e34, #6e8d55);
+.theme-meal .hero-highlight {
+  background-image: linear-gradient(100deg, #7a3b12, #dd8a3c);
 }
 
 .hero-description {
@@ -702,17 +702,17 @@
   margin-bottom: 4px;
 }
 
-.theme-heng .detail-hero {
+.theme-meal .detail-hero {
   padding-top: 132px;
 }
 
-.theme-heng .hero-product {
+.theme-meal .hero-product {
   margin-top: 25px;
   width: min(750px, 100%);
 }
 
-.theme-heng .hero-ambient {
-  background: radial-gradient(ellipse at 50% 65%, #cad9b27a, transparent 60%);
+.theme-meal .hero-ambient {
+  background: radial-gradient(ellipse at 50% 65%, #f3d7b07a, transparent 60%);
 }
 
 .shopping-canvas {
@@ -726,7 +726,7 @@
 .shopping-orbit {
   width: 430px;
   height: 430px;
-  border: 1px solid #6f865220;
+  border: 1px solid #cfa57520;
   border-radius: 50%;
   position: absolute;
   z-index: -1;
@@ -735,7 +735,7 @@
 .orbit-two {
   width: 540px;
   height: 540px;
-  border-color: #6f865211;
+  border-color: #cfa57511;
 }
 
 .phone-device {
@@ -852,9 +852,9 @@
 .floating-chip {
   position: absolute;
   background: #ffffffed;
-  border: 1px solid #455b2320;
+  border: 1px solid #a1662b20;
   border-radius: 14px;
-  box-shadow: 0 16px 45px #35452112;
+  box-shadow: 0 16px 45px #8a5a2a12;
 }
 
 .chip-budget {
@@ -866,7 +866,7 @@
 
 .chip-budget > span {
   display: block;
-  color: #78886c;
+  color: #9a7b5f;
   font-size: 9px;
   margin-bottom: 7px;
 }
@@ -879,7 +879,7 @@
 .chip-budget > i {
   font-style: normal;
   margin-left: 20px;
-  color: #728f48;
+  color: #cd7a2e;
 }
 
 .chip-evidence {
@@ -900,18 +900,18 @@
 .chip-evidence div > span {
   display: block;
   font: 7px var(--font-mono);
-  color: #7c886e;
+  color: #9a7b5f;
   margin-top: 4px;
 }
 
 .chip-check {
-  color: #648342;
-  background: #eef2dd;
+  color: #b2641f;
+  background: #f7e7cf;
   padding: 5px 10px;
   border-radius: 50%;
 }
 
-.theme-heng .hero-bottom {
+.theme-meal .hero-bottom {
   margin-top: 30px;
 }
 
@@ -920,7 +920,7 @@
 }
 
 .story-visual .shopping-canvas {
-  background: radial-gradient(ellipse, #d9e3c5aa, transparent 70%);
+  background: radial-gradient(ellipse, #f4e0c3aa, transparent 70%);
 }
 
 .detail-architecture {
@@ -1275,38 +1275,38 @@
 }
 
 @media (min-width: 1100px) {
-  .theme-heng .detail-hero {
+  .theme-meal .detail-hero {
     padding-top: 152px;
     text-align: left;
     min-height: 850px;
   }
-  .theme-heng .hero-copy {
+  .theme-meal .hero-copy {
     padding-top: 120px;
   }
-  .theme-heng .hero-copy .detail-kicker {
+  .theme-meal .hero-copy .detail-kicker {
     justify-content: flex-start;
   }
-  .theme-heng .hero-copy h1 {
+  .theme-meal .hero-copy h1 {
     font-size: clamp(50px, 4.8vw, 74px);
   }
-  .theme-heng .hero-description {
+  .theme-meal .hero-description {
     margin-left: 0;
     max-width: 390px;
   }
-  .theme-heng .hero-product {
+  .theme-meal .hero-product {
     position: absolute;
     top: 160px;
     right: max(0px, calc((100vw - 1400px) / 2));
     width: 52%;
     z-index: 3;
   }
-  .theme-heng .shopping-canvas {
+  .theme-meal .shopping-canvas {
     min-height: 570px;
   }
-  .theme-heng .hero-product .phone-device {
+  .theme-meal .hero-product .phone-device {
     transform: rotate(-7deg) scale(1.1);
   }
-  .theme-heng .hero-bottom {
+  .theme-meal .hero-bottom {
     margin-top: 195px;
   }
 }
@@ -1356,7 +1356,7 @@
     font-size: 10px;
     gap: 6px;
   }
-  .detail-hero, .theme-heng .detail-hero {
+  .detail-hero, .theme-meal .detail-hero {
     padding-top: 120px;
   }
   .hero-copy .detail-kicker {

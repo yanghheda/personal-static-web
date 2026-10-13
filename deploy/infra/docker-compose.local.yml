@@ -1,0 +1,118 @@
+# =========================================================================
+# 本地开发用基础设施（在本机 Docker Desktop 上跑，供所有项目本地开发共用）
+#
+# 与服务器版 docker-compose.yml 的差异：
+#   1. 不含 nginx 边缘入口：本地页面走各项目自己的 dev server，不需要统一入口；
+#      服务器版 nginx 依赖 yjxai.cloud 证书与宿主机 /var/www/yjxai，本机跑不起来。
+#   2. MySQL / Redis / Qdrant 端口绑定到 127.0.0.1 常规端口，
+#      宿主机上直接跑的项目（IDEA 里的 Spring Boot、pnpm dev）可直连。
+#   3. 仍然挂在 infra-net 上并保留服务别名，
+#      容器化的项目照旧用 mysql:3306 / redis:6379 / qdrant:6333 访问。
+#
+# 用法：
+#   docker network create infra-net        # 仅首次（已存在会提示，忽略即可）
+#   cp .env.example .env                   # 仅首次；密码建议与服务器保持一致
+#   docker compose -f docker-compose.local.yml up -d
+#   docker compose -f docker-compose.local.yml ps
+#
+# 停止：docker compose -f docker-compose.local.yml down   （数据在 named volume 里，不会丢）
+# =========================================================================
+
+name: infra
+
+# 日志轮转：与服务器版保持一致的统一限制
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+# infra-net 为外部共享网络：本地项目以自己的 compose 以 external 方式加入，
+# 通过服务别名（mysql / redis / qdrant）互相访问。
+networks:
+  infra-net:
+    external: true
+
+# 数据持久化：数据都在 named volume 里，docker compose down 不会丢数据
+volumes:
+  mysql_data:
+  redis_data:
+  qdrant_data:
+
+services:
+  # -------------------------------------------------------------------
+  # MySQL 8.4 LTS：多项目共享数据库
+  # -------------------------------------------------------------------
+  mysql:
+    image: mysql:8.4
+    container_name: infra-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      # 本地开发账号（仅本地生效，见 ./mysql/initdb.d/，服务器版不挂载该目录）
+      MYSQL_DEV_USERNAME: ${MYSQL_DEV_USERNAME:-dev}
+      MYSQL_DEV_PASSWORD: ${MYSQL_DEV_PASSWORD:-dev123456}
+      TZ: ${TZ:-Asia/Shanghai}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "127.0.0.1:3306:3306"             # 宿主机项目 / GUI 客户端直连（仅本机回环）
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d:ro   # 仅首次初始化数据目录时执行
+    networks:
+      infra-net:
+        aliases:
+          - mysql                       # 其它项目连 mysql:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    logging: *default-logging
+
+  # -------------------------------------------------------------------
+  # Redis：缓存 / 会话 / 队列
+  # -------------------------------------------------------------------
+  redis:
+    image: redis:8-alpine
+    container_name: infra-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
+    ports:
+      - "127.0.0.1:6379:6379"             # 宿主机项目直连（仅本机回环）
+    volumes:
+      - redis_data:/data
+    networks:
+      infra-net:
+        aliases:
+          - redis                       # 其它项目连 redis:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging: *default-logging
+
+  # -------------------------------------------------------------------
+  # Qdrant：向量数据库（RAG / 语义检索项目使用）
+  # -------------------------------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:v1.19.0
+    container_name: infra-qdrant
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY}
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "127.0.0.1:6333:6333"             # REST / Dashboard，浏览器直接打开
+      - "127.0.0.1:6334:6334"             # gRPC，Python 客户端常用
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      infra-net:
+        aliases:
+          - qdrant                      # 其它项目连 qdrant:6333
+    logging: *default-logging

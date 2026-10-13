@@ -9,7 +9,7 @@ const screen = computed(() => props.hero ? content.value.screenshot.title : cont
 </script>
 
 <template>
-  <div class="product-demo" :class="[forge ? 'demo-forge' : 'demo-heng', { 'demo-hero': hero }]">
+  <div class="product-demo" :class="[forge ? 'demo-forge' : 'demo-meal', { 'demo-hero': hero }]">
     <div :class="forge ? 'desktop-frame' : 'shopping-canvas'">
       <template v-if="forge"><div class="frame-chrome"><span class="window-dots"><i></i><i></i><i></i></span><span>FORGE AI / DELIVERY WORKBENCH</span><span>↗</span></div></template>
       <template v-else><div class="shopping-orbit orbit-one"></div><div class="shopping-orbit orbit-two"></div></template>
@@ -18,7 +18,7 @@ const screen = computed(() => props.hero ? content.value.screenshot.title : cont
         <img v-if="imageSrc" class="project-screenshot" :src="imageSrc" :alt="screen" :loading="hero ? 'eager' : 'lazy'" />
         <div v-else class="screenshot-placeholder" :class="`placeholder-step-${step}`" :key="screen" role="img" :aria-label="`${screen}，截图占位`">
           <div class="placeholder-grid" aria-hidden="true"></div>
-          <div class="placeholder-art" aria-hidden="true"><i></i><i></i><i></i><span>{{ forge ? 'F' : 'h' }}<b>↗</b></span></div>
+          <div class="placeholder-art" aria-hidden="true"><i></i><i></i><i></i><span>{{ forge ? 'F' : 'M' }}<b>↗</b></span></div>
           <span class="placeholder-eyebrow">{{ hero ? 'PRODUCT OVERVIEW' : `PRODUCT STORY / 0${step + 1}` }}</span>
           <strong>{{ screen }}</strong><span class="placeholder-caption">{{ hero ? content.screenshot.hint : '预留对应功能的实际项目截图' }}</span>
           <span class="placeholder-badge">截图占位 <span>· {{ content.screenshot.ratio }}</span></span>
@@ -26,8 +26,8 @@ const screen = computed(() => props.hero ? content.value.screenshot.title : cont
         </div>
         <div v-if="!forge" class="phone-home"></div>
       </div>
-      <div v-if="hero && !forge" class="floating-chip chip-budget"><span>从你的需求出发</span><b>预算 · 偏好 · 场景</b><i>↗</i></div>
-      <div v-if="hero && !forge" class="floating-chip chip-evidence"><span class="chip-check">✓</span><div><b>每个推荐都有理由</b><span>Evidence, not guesswork.</span></div></div>
+      <div v-if="hero && !forge" class="floating-chip chip-budget"><span>从你的需求出发</span><b>口味 · 预算 · 忌口</b><i>↗</i></div>
+      <div v-if="hero && !forge" class="floating-chip chip-evidence"><span class="chip-check">✓</span><div><b>每个分数都有依据</b><span>Scores you can check.</span></div></div>
     </div>
     <div v-if="!hero" class="scene-flow" :key="step" aria-label="本阶段流程"><span v-for="(item, i) in content.chapters[step].flow" :key="item" :style="{ '--node': i }"><i>{{ String(i + 1).padStart(2, '0') }}</i>{{ item }}</span></div>
   </div>

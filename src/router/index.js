@@ -27,11 +27,11 @@ const routes = [
     meta: { title: 'ForgeAI · AI 研发交付工作台 — YJX', immersive: true },
   },
   {
-    path: '/projects/hengpick',
-    name: 'project-hengpick',
+    path: '/projects/mealmind',
+    name: 'project-mealmind',
     component: () => import('@/views/ProjectDetailView.vue'),
-    props: { slug: 'hengpick' },
-    meta: { title: 'HengPick · AI 智能购物决策 — YJX', immersive: true },
+    props: { slug: 'mealmind' },
+    meta: { title: 'MealMind · AI 外卖决策平台 — YJX', immersive: true },
   },
   {
     path: '/engineering',

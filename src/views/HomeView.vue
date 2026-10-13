@@ -67,7 +67,7 @@ function onTiltLeave() {
             <span ref="taglineText">From frontend craft to AI applications.</span><span class="hero-caret" aria-hidden="true"></span>
           </p>
           <p class="mt-0 mb-[2.2rem] max-w-[34em] text-[1.02rem] text-inksoft" v-reveal="220">
-            <b class="font-semibold text-ink">约 2 年电商前端</b>经验，<b class="font-semibold text-ink">7 个月 AI 应用开发</b>经历。在 iFinD AI Chat 中负责专家模式前端交互改造，参与 Agent 能力接入；通过 ForgeAI 与 HengPick 两个已部署项目，拓展 Java / Python 全栈与 Agent 编排实践。
+            <b class="font-semibold text-ink">约 2 年电商前端</b>经验，<b class="font-semibold text-ink">7 个月 AI 应用开发</b>经历。在 iFinD AI Chat 中负责专家模式前端交互改造，参与 Agent 能力接入；通过 ForgeAI 与 MealMind 两个已部署项目，拓展 Java / Python 全栈与 Agent 编排实践。
           </p>
           <div class="flex flex-wrap gap-[0.7rem]" v-reveal="300">
             <RouterLink
@@ -216,11 +216,11 @@ function onTiltLeave() {
         <div
           class="marquee__track flex gap-[2.6rem] pr-[2.6rem] font-mono text-[0.76rem] tracking-[0.16em] whitespace-nowrap uppercase text-[rgba(239,235,227,0.55)]"
         >
-          <span>React <b>/</b> TypeScript <b>/</b> Next.js <b>/</b> React Native <b>/</b> Vite</span>
+          <span>React <b>/</b> TypeScript <b>/</b> Next.js <b>/</b> Vite</span>
           <span>Java <b>/</b> Spring Boot <b>/</b> MySQL <b>/</b> Redis <b>/</b> Docker</span>
           <span>Python <b>/</b> FastAPI <b>/</b> LangGraph <b>/</b> Qdrant <b>/</b> Agent</span>
           <!-- 重复一遍以实现无缝循环 -->
-          <span>React <b>/</b> TypeScript <b>/</b> Next.js <b>/</b> React Native <b>/</b> Vite</span>
+          <span>React <b>/</b> TypeScript <b>/</b> Next.js <b>/</b> Vite</span>
           <span>Java <b>/</b> Spring Boot <b>/</b> MySQL <b>/</b> Redis <b>/</b> Docker</span>
           <span>Python <b>/</b> FastAPI <b>/</b> LangGraph <b>/</b> Qdrant <b>/</b> Agent</span>
         </div>

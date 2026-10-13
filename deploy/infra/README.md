@@ -2,6 +2,9 @@
 
 服务器部署位置：`/opt/infra`。由「边缘 nginx + MySQL + Redis + Qdrant」组成，是所有业务项目共享的基础设施。
 
+- 其它项目**上线到生产**时怎么接入：见 [PRODUCTION.md](./PRODUCTION.md)（可直接整份交给另一个项目/会话）。
+- 本地开发用同目录的 `docker-compose.local.yml`（不含 nginx）：见第十二节，接入细节见 [LOCAL_DEV.md](./LOCAL_DEV.md)。
+
 ## 组件与版本（截至 2026-09）
 
 | 组件   | 镜像                    | 说明                      |
@@ -218,6 +221,8 @@ docker compose exec nginx nginx -t                                     # 配置�
 
 ## 八、以后新增业务项目怎么接入
 
+完整流程（含建库建账号、nginx 接入、检查清单、已知的坑）见 [PRODUCTION.md](./PRODUCTION.md)。下面是速览：
+
 新项目放独立目录（如 `/opt/forgeai`），写自己的 `docker-compose.yml`，关键是**挂到 `infra-net` 并声明网络别名**：
 
 ```yaml
@@ -264,3 +269,61 @@ docker compose -f /opt/infra/docker-compose.yml ps        # 容器状态
 docker logs -f infra-nginx                                # nginx 日志
 fail2ban-client status sshd                               # 封禁情况（需 root）
 ```
+
+## 十二、本地开发：在本机 Docker 上跑一套 infra
+
+服务器上的 `/opt/infra` 供线上使用；本地开发用同目录的 **`docker-compose.local.yml`**，
+它只起 MySQL / Redis / Qdrant 三个数据服务，供本机所有项目共用。
+
+其它项目如何接入（连接信息、建库建账号、隔离要求、注意事项）见
+[LOCAL_DEV.md](./LOCAL_DEV.md)，该文档可直接整份交给另一个项目/会话。
+
+与服务器版的差异：
+
+| 差异点      | 服务器版 `docker-compose.yml` | 本地版 `docker-compose.local.yml`                |
+| ----------- | ----------------------------- | ------------------------------------------------ |
+| nginx 入口  | 有，占用 80/443               | **无**，本地页面走各项目自己的 dev server        |
+| 数据服务端口 | 只在 Docker 内网              | 额外绑定 `127.0.0.1:3306/6379/6333/6334`         |
+| 网络别名    | `mysql` / `redis` / `qdrant`  | 相同，容器化项目无需改配置                       |
+| 额外账号    | 无                            | 首次初始化创建 `root@'%'` 与通用开发账号 `dev@'%'` |
+
+```bash
+cd deploy/infra
+docker network create infra-net            # 仅首次；已存在会提示，忽略即可
+cp .env.example .env                       # 仅首次；填三个强随机密码
+docker compose -f docker-compose.local.yml up -d
+docker compose -f docker-compose.local.yml ps
+```
+
+**建议本地 `.env` 与服务器 `/opt/infra/.env` 填同样的密码**，这样各项目的 `.env`
+只需切换 host（`mysql` ↔ `127.0.0.1`），不用改密码。
+
+### 本地连接信息
+
+| 服务                  | 宿主机（IDEA / pnpm dev）        | 容器内（加入 `infra-net` 的项目） |
+| --------------------- | -------------------------------- | --------------------------------- |
+| MySQL                 | `127.0.0.1:3306`                 | `mysql:3306`                      |
+| Redis                 | `127.0.0.1:6379`                 | `redis:6379`                      |
+| Qdrant REST/Dashboard | `http://127.0.0.1:6333/dashboard` | `http://qdrant:6333`             |
+| Qdrant gRPC           | `127.0.0.1:6334`                 | `qdrant:6334`                     |
+
+账号（首次启动时由 `mysql/initdb.d/01-dev-account.sh` 创建，**仅本地生效**）：
+
+- `root@'%'`：密码同 `MYSQL_ROOT_PASSWORD`，给 DataGrip / Navicat 等 GUI 客户端用
+  （MySQL 官方镜像默认只建 `root@'localhost'`，宿主机从 127.0.0.1 连进来会被拒）。
+- `dev@'%'`：默认密码 `dev123456`，可用 `MYSQL_DEV_USERNAME` / `MYSQL_DEV_PASSWORD` 覆盖。
+  拥有全库权限，**只建账号不建库**，各项目的库自己 `CREATE DATABASE`。
+
+> 初始化脚本只在数据目录为空时执行一次。想改密码并重新初始化：
+> `docker compose -f docker-compose.local.yml down --volumes`（会删除本地数据）。
+
+### 注意事项
+
+- **不要**在本机执行服务器版 `docker compose -f docker-compose.yml up -d`：它会尝试启动
+  nginx，而本机没有 `yjxai.cloud` 证书和 `/var/www/yjxai`，容器会启动失败。
+- 若某个项目自带的 compose 里也包含独立的 MySQL / Redis 并占用 `3306` / `6379`，
+  两者**不能同时启动**，先停掉项目自带的容器再连这套 infra。直接接入 `infra-net`
+  共享设施的项目（如 `mealmind`）不受影响，它不再自建存储。
+- 宿主机用 JDBC 连 MySQL 8.4（`caching_sha2_password`）且未启用 TLS 时，
+  连接串需带 `allowPublicKeyRetrieval=true`。
+- 本地密码写在未提交的 `.env` 里，仓库只保留 `.env.example`。

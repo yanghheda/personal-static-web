@@ -75,7 +75,7 @@ export const resume = {
       en: 'Education',
     },
   ],
-  summary: ['约 **2 年电商前端开发、7 个月金融 AI 应用开发**经历，覆盖 C 端 H5 / 小程序与 B 端商家 SaaS，信息工程专业海外硕士。', '在 **iFinD AI Chat** 中负责==专家模式前端渲染与交互改造==，参与 Claude Agent SDK、Skills 与多格式文件生成能力的接入联调。', '以 **React / TypeScript** 为基础，通过 **Python / FastAPI、Java / Spring Boot** 拓展全栈能力；已部署 ==ForgeAI== 与 ==HengPick==，具备 Agent 编排、受控工具调用及跨端业务实现的项目实践。'],
+  summary: ['约 **2 年电商前端开发、7 个月金融 AI 应用开发**经历，覆盖 C 端 H5 / 小程序与 B 端商家 SaaS，信息工程专业海外硕士。', '在 **iFinD AI Chat** 中负责==专家模式前端渲染与交互改造==，参与 Claude Agent SDK、Skills 与多格式文件生成能力的接入联调。', '以 **React / TypeScript** 为基础，通过 **Python / FastAPI、Java / Spring Boot** 拓展全栈能力；已部署 ==ForgeAI== 与 ==MealMind==，具备 Agent 编排、受控工具调用与决策链路评测的项目实践。'],
   highlights: [
     {
       n: '1',
@@ -94,8 +94,8 @@ export const resume = {
     },
     {
       n: '4',
-      title: '跨端交付与业务事实校验',
-      desc: '在 HengPick 中衔接 RN 商城与 H5 决策页，将价格、评分及硬条件判断交由业务代码执行，结合 Run 版本、报价重确认与规则 / 模板降级处理异常。',
+      title: '确定性边界与决策评测',
+      desc: '在 MealMind 中把预算、忌口与营业状态等硬约束、价格计算与加权排序交由业务代码执行，模型只负责理解与表达；以 Golden 用例、稳定性复跑与降级链路让推荐可评测、可计量。',
     },
   ],
   experience: [
@@ -137,16 +137,22 @@ export const resume = {
     },
     {
       num: '02',
-      slug: 'hengpick',
-      name: 'HengPick · AI 智能购物决策',
+      slug: 'mealmind',
+      name: 'MealMind · AI 外卖决策平台',
       role: '全栈开发',
       period: '个人项目',
       pills: ['副项目 · C 端', '已部署上线'],
-      note: 'RN 商城 + H5 决策页 + Java / Python 服务',
-      stack: ['LangGraph', '大模型 API 接入', 'Qdrant', 'Redis Streams', 'React Native / Expo', 'React', 'Vite', 'TypeScript', 'Spring Boot', 'MyBatis', 'FastAPI', 'MySQL'],
-      aiStack: ['LangGraph', '大模型 API 接入', 'Qdrant', 'Redis Streams'],
-      desc: '面向“给谁买、预算多少、看重什么”的购物需求，在 React Native 商城中嵌入 H5 决策页，提供需求澄清、候选比较、价格方案与购买建议，衔接商品详情和模拟结算。',
-      points: ['**跨端业务衔接：**使用一次性 Ticket、H5 Session 与版本化 HostBridge 连接 RN 宿主和 H5，完成需求输入、决策进度、商品对比、返回商品详情及模拟结算路径。', '**决策编排与事实校验：**基于 LangGraph 串联意图提取、追问、商品筛选、价格计算与评分；将价格、优惠及硬条件判断交由 Java 执行，模型负责需求理解与建议表达，购买意向创建前再次确认报价版本。', '**证据检索与质量评测：**实现 Qdrant 证据索引、按 Dataset / Product / SKU 过滤、引用归属校验及评价摘要模块；建立 Golden Case 回归与价格、硬条件、引用完整性门禁，区分模型生成结果与模板降级结果。', '**异步可靠性：**以 MySQL 保存 Decision Run 权威状态，Redis Stream / SSE 传递进度；使用 Run 版本拦截过期回调，支持断线续读与轮询快照，提供模型不可用时的规则 / 模板降级与脱敏 Trace。', '**当前实现边界：**商品、报价与结算采用模拟数据；评价检索与优惠模块尚未完整接入主链，部分评分输入为演示值，进度步骤在图执行后集中回调。'],
+      note: '移动端 H5 + Java 业务服务 + Python Agent 运行时',
+      stack: ['LangGraph', '决策模型（System One）打分', '结构化输出', 'SSE', 'React', 'TypeScript', 'Vite', 'TanStack Query', 'Zustand', 'Spring Boot', 'MyBatis-Plus', 'FastAPI', 'MySQL', 'Redis', 'Docker Compose'],
+      aiStack: ['LangGraph', '决策模型（System One）打分', '结构化输出', 'SSE'],
+      desc: '用一句自然语言完成外卖决策：给出 3–5 张带逐维度评分与依据的候选卡片，预算、忌口与营业状态等硬性约束由代码保证零违规，整条决策链路的成本与延迟可评测、可计量。',
+      points: [
+        '**一句话决策链路：**自然语言需求经生成式模型转为结构化偏好，信息不足时最多 1 轮 2 问；硬约束过滤、逐菜五维打分、加权排序与理由生成在 3 轮对话内给出可直接加购的候选卡片。',
+        '**硬约束代码化：**预算、忌口、营业状态与时效由 Java 约束引擎逐条过滤并产出过滤明细，评测门禁零违规；模型只负责语义，不参与约束与价格计算。',
+        '**快慢分工与降级：**决策模型对每道候选并行提交 5 个打分问题与 1 个忌口护栏，原生返回概率分布与置信度；生成式模型负责理解与表达，理由只允许引用给定事实。模型不可用时按三档降级切换规则分，并冷却探测恢复。',
+        '**可评测与可计量：**Golden 用例批跑、稳定性复跑与校准分桶构成评测闭环；SSE 事件按 seq 编号支持断线续订；单次决策成本（cost_yuan）与端到端 P95 落库，评测看板可查。',
+        '**当前实现边界：**商家与菜品均为模拟数据（40 家商家、约 600 道菜品），不含结算与履约；演示规模不与平台体量对标，评测数据为演示期口径。',
+      ],
     },
   ],
   skillGroups: [
@@ -188,7 +194,7 @@ export const resume = {
           name: 'Qdrant 索引 / 过滤',
         },
         {
-          name: '事实 / 引用校验',
+          name: '概率打分 / 置信度',
         },
       ],
     },
@@ -232,7 +238,7 @@ export const resume = {
       ],
     },
     {
-      title: '前端与跨端',
+      title: '前端开发',
       en: 'Frontend',
       tags: [
         {
@@ -248,7 +254,7 @@ export const resume = {
           hot: true,
         },
         {
-          name: 'React Native / Expo',
+          name: 'React Router',
         },
         {
           name: 'Vite',
@@ -261,9 +267,6 @@ export const resume = {
         },
         {
           name: 'H5 / 小程序',
-        },
-        {
-          name: 'WebView / HostBridge',
         },
       ],
     },
@@ -325,5 +328,5 @@ export const resume = {
       level: '日本留学经历 · 2015–2023',
     },
   ],
-  footerNote: 'ForgeAI 与 HengPick 均为已部署的个人全栈项目 · 可提供项目演示与源码讲解，具体实现范围见项目说明',
+  footerNote: 'ForgeAI 与 MealMind 均为已部署的个人全栈项目 · 可提供项目演示与源码讲解，具体实现范围见项目说明',
 };

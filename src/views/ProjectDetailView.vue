@@ -27,7 +27,7 @@ const chapter = computed(() => project.chapters[active.value])
     <section id="top" ref="hero" class="detail-hero">
       <div class="hero-ambient" aria-hidden="true"></div>
       <div class="detail-container hero-copy"><p class="detail-kicker"><span class="live-dot"></span> SELECTED WORK / {{ project.index }} <span class="kicker-divider">—</span> {{ project.category }}</p><h1><span>{{ project.headline[0] }}</span><span class="hero-highlight">{{ project.headline[1] }}</span></h1><p class="hero-description">{{ project.intro }}</p><a href="#experience" class="detail-button">探索项目 <span>↓</span></a></div>
-      <div class="hero-product"><div v-if="slug === 'forgeai'" class="hero-product-label"><span>FROM INTENT TO DELIVERY</span><span>有界智能，无缝协作</span></div><ProjectDemo :project="slug" :step="0" hero /></div>
+      <div class="hero-product"><div class="hero-product-label"><span>{{ slug === 'forgeai' ? 'FROM INTENT TO DELIVERY' : 'FROM A SENTENCE TO A MEAL' }}</span><span>{{ slug === 'forgeai' ? '有界智能，无缝协作' : '一句话，到有依据的一餐' }}</span></div><ProjectDemo :project="slug" :step="0" hero /></div>
       <div class="hero-bottom detail-container"><span>DESIGNED & BUILT BY 杨佳锡</span><span class="scroll-cue">SCROLL TO DISCOVER <i>↓</i></span><span>01 — 04</span></div>
     </section>
 

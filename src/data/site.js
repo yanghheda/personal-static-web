@@ -35,7 +35,7 @@ export const navIndex = [
     to: '/projects',
     title: '项目',
     en: 'Projects',
-    desc: '个人全栈项目：ForgeAI 研发交付工作台与 HengPick 智能购物决策，展示业务流程、架构与关键实现。',
+    desc: '个人全栈项目：ForgeAI 研发交付工作台与 MealMind 外卖决策平台，展示业务流程、架构与关键实现。',
     domain: 'yjxai.cloud/projects',
     tags: ['作品集'],
   },
@@ -73,7 +73,7 @@ export const stats = [
   {
     n: '03',
     unit: 'TRACKS',
-    label: '全栈实践的三个方向：前端与跨端交互、Java 业务服务、Python / Agent 编排。',
+    label: '全栈实践的三个方向：前端交互、Java 业务服务、Python / Agent 编排。',
   },
 ];
 
@@ -81,7 +81,7 @@ export const nowItems = [
   {
     en: 'Doing',
     title: '正在做',
-    desc: '围绕 ForgeAI 与 HengPick 整理全栈项目实践，梳理工具调用、人工审批、任务恢复和跨端业务流程。',
+    desc: '围绕 ForgeAI 与 MealMind 整理全栈项目实践，梳理工具调用、人工审批、任务恢复与决策评测链路。',
   },
   {
     en: 'Learning',
@@ -100,7 +100,7 @@ export const projects = Object.entries(projectStories).map(([slug, project]) => 
   slug,
   name: `${project.name} · ${project.category}`,
   period: project.role,
-  kind: slug === 'forgeai' ? 'B 端 · 产研协作' : 'C 端 · 购物决策 Demo',
+  kind: slug === 'forgeai' ? 'B 端 · 产研协作' : 'C 端 · 外卖决策 Demo',
   online: true,
   status: project.status,
   desc: project.problem,

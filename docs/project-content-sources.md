@@ -1,6 +1,6 @@
 # 项目详情页内容与截图维护
 
-核对日期：2026-09-21。详情页与项目列表共用 `src/data/projectStories.js`，不从原站点的简历或项目文案推导内容。
+核对日期：2026-10-13。详情页与项目列表共用 `src/data/projectStories.js`，不从原站点的简历或项目文案推导内容。
 
 ## 内容来源
 
@@ -22,17 +22,17 @@
 
 部分 README 仍描述早期骨架阶段，与当前代码不一致；页面采用当前 ADR、实现与用户简历交叉核对后的描述。
 
-### HengPick
+### MealMind
 
-源仓库：`../hengpick-smart-mall`。
+源仓库：`../mealmind`。
 
-- `README.md`：项目范围、跨端链路、模拟数据、事实边界、故障语义和评测边界。
-- `services/agent-service/app/graph/workflow.py`：意图、追问、筛选、价格、评分与校验编排；不宣传每个内部节点均为真实模型调用。
-- `services/commerce-api/src/main/java/com/hengpick/mall/decision/report/FinalReportValidator.java`：Schema、ID、硬条件、排序、金额、引用归属、版本校验。
-- `apps/commerce-app/src/screens/`：商城、智能商城、商品详情与模拟结算页面。
-- `apps/commerce-app/src/bridge/`、`apps/smart-mall-h5/src/bridge/`：RN ↔ H5 桥接。
+- `README.md`：项目范围、三层架构、里程碑、部署形态与成本 / 延迟说明。
+- `docs/PRD.md`：产品目标、硬约束规则（§5.3）、评分规格（§5.4）、降级表（§5.7）、评测指标（§7.2）与 Go / No-Go 实测（§7.5）。
+- `docs/tech-design.md`：接口契约（23 个对外接口 + 内部接口）、降级状态机（§6.1）、Scorer 双通道（§6.2）、部署拓扑（§8.1）。
+- `services/biz`（Spring Boot）：约束引擎、加权排序、决策记录与成本计量。
+- `services/agent`（FastAPI + LangGraph）：理解器、打分器、表达器与评测执行器。
 
-商品、报价、评价与结算均为模拟场景。不将评测门禁阈值描述成真实线上准确率，也不使用未提供的性能提升或商业指标。
+商家与菜品均为模拟数据（40 家商家、约 600 道菜品），不含交易与结算；评测数字为演示期口径，不描述为线上指标，也不使用未提供的性能提升或商业数据。
 
 ## 截图替换
 
@@ -52,17 +52,17 @@
 | ForgeAI | 02 | Agent 指令中心 / 工具执行过程 |
 | ForgeAI | 03 | 发布预检 / HIGH 审批 |
 | ForgeAI | 04 | 开发页 / MR、Pipeline 与执行轨迹 |
-| HengPick | 首屏 | H5 决策报告 |
-| HengPick | 01 | 需求输入 / 主动追问 |
-| HengPick | 02 | 候选对比 / 价格与五维评分 |
-| HengPick | 03 | 报告 / 评价与证据引用 |
-| HengPick | 04 | RN 商品详情 / 模拟结算 |
+| MealMind | 首屏 | AI 决策会话 / 推荐卡片 |
+| MealMind | 01 | 需求输入 / 澄清追问卡 |
+| MealMind | 02 | 约束过滤 / 过滤明细与候选集 |
+| MealMind | 03 | 推荐卡片 / 五维分与档位说明 |
+| MealMind | 04 | 评测看板 / 成本与 P95 |
 
-ForgeAI 使用横屏画面，HengPick 使用竖屏画面。图片采用 contain 保持完整内容，不裁掉业务信息。
+ForgeAI 使用横屏画面，MealMind 使用竖屏画面。图片采用 contain 保持完整内容，不裁掉业务信息。
 
 ## 交互与构建
 
-- 路由：`/projects/forgeai`、`/projects/hengpick`。
+- 路由：`/projects/forgeai`、`/projects/mealmind`。
 - 正常视口使用 sticky 场景，滚动推进四阶段，按钮可直接定位阶段。
 - 短屏与 `prefers-reduced-motion` 模式使用自然文档流与按钮切换，避免内容被固定区域裁掉。
 - 滚动监听合并到 requestAnimationFrame，离开页面时清理监听器、动画帧与 ResizeObserver。
