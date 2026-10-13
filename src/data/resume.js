@@ -123,7 +123,7 @@ export const resume = {
       period: '个人项目',
       pills: ['主项目 · B 端', '已部署上线'],
       note: 'Web 工作台 + Java 业务服务 + Python Agent Runtime',
-      stack: ['LangGraph', '结构化输出', 'SQLite Checkpoint', 'SSE', 'Next.js', 'React', 'TypeScript', 'Spring Boot', 'MyBatis-Plus', 'FastAPI', 'MySQL', 'Redis', 'Qdrant', 'Docker Compose'],
+      stack: ['LangGraph', '结构化输出', 'SQLite Checkpoint', 'SSE', 'Vite', 'React 19', 'TypeScript', 'Spring Boot', 'MyBatis-Plus', 'FastAPI', 'MySQL', 'Redis', 'Qdrant', 'Docker Compose'],
       aiStack: ['LangGraph', '结构化输出', 'SQLite Checkpoint', 'SSE'],
       desc: '面向企业产研协作，将需求、PRD、设计、开发、测试与发布管理汇集到同一工作台，通过分阶段 Agent 辅助生成交付物、调用业务工具并推进流程。',
       points: [

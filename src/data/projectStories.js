@@ -26,7 +26,7 @@ export const projectStories = {
     architectureTitle: '三种语言。一个清晰的边界。',
     architectureIntro: 'Web 只访问业务服务；Agent 通过受控 Tool API 执行操作，业务事实、权限与事务统一归 Java 管理。',
     layers: [
-      { name: 'Web 工作台', tech: 'Next.js / React / TypeScript', text: '对话、文档编辑、审批交互与进度呈现', symbol: '01' },
+      { name: 'Web 工作台', tech: 'Vite / React 19 / TypeScript', text: '对话、文档编辑、审批交互与进度呈现', symbol: '01' },
       { name: '业务权威', tech: 'Spring Boot / MyBatis-Plus', text: '公司作用域、RBAC、状态机与事务', symbol: '02' },
       { name: 'Agent Runtime', tech: 'FastAPI / LangGraph', text: '有界编排、结构化调用与状态恢复', symbol: '03' },
     ],
@@ -36,7 +36,7 @@ export const projectStories = {
       { title: '审批授权，必须对应具体的一次操作。', label: 'APPROVAL & RECOVERY', text: '最终发布属于 HIGH 风险，冻结工具、调用参数和资源版本，由非发起人审批。SQLite Checkpoint 保存图状态；恢复时仍需验证权限与操作上下文。当前发布执行器明确为模拟部署。', tradeoff: '保持常规过程动作连贯，同时在最终发布保留独立决策与可追溯记录。' },
       { title: '流式交互背后，是可恢复的业务状态。', label: 'EVENTS & INTEGRATION', text: 'SSE 展示增量结果，持久事件支持按序号补发，客户端归并状态并以快照恢复。GitLab 分支、MR、Pipeline、Webhook 对接结合 Outbox 与状态校验，处理异步结果。', tradeoff: '连接负责展示进度，持久状态负责恢复事实，避免刷新页面就丢失执行上下文。' },
     ],
-    stack: ['Next.js', 'React', 'TypeScript', 'Spring Boot', 'MyBatis-Plus', 'FastAPI', 'LangGraph', 'MySQL', 'Redis', 'Qdrant', 'SQLite Checkpoint', 'Docker Compose'],
+    stack: ['Vite', 'React 19', 'TypeScript', 'Spring Boot', 'MyBatis-Plus', 'FastAPI', 'LangGraph', 'MySQL', 'Redis', 'Qdrant', 'SQLite Checkpoint', 'Docker Compose'],
     conclusion: '让 AI 往前走。\n让工程守住边界。',
     next: 'mealmind',
   },
