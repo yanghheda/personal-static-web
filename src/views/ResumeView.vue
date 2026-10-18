@@ -168,6 +168,11 @@ onBeforeUnmount(() => {
                     type="button" @click="handleCopy(c.value, '邮箱')">
                     {{ c.value }}
                   </button>
+                  <a v-else-if="c.kind === 'link'"
+                    class="cursor-pointer border-b border-transparent transition-colors duration-200 hover:border-accent hover:text-accent"
+                    :href="c.href" target="_blank" rel="noopener noreferrer">
+                    {{ c.value }}
+                  </a>
                   <span v-else class="text-inksoft">{{ c.value }}</span>
                 </dd>
               </div>
