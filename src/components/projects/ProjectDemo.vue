@@ -6,6 +6,7 @@ const content = computed(() => projectStories[props.project])
 const forge = computed(() => props.project === 'forgeai')
 const imageSrc = computed(() => props.hero ? content.value.screenshot.src : content.value.chapters[props.step].image)
 const screen = computed(() => props.hero ? content.value.screenshot.title : content.value.chapters[props.step].screen)
+const chromeDark = computed(() => (props.hero ? content.value.screenshot : content.value.chapters[props.step]).chrome === 'dark')
 </script>
 
 <template>
@@ -14,7 +15,7 @@ const screen = computed(() => props.hero ? content.value.screenshot.title : cont
       <template v-if="forge"><div class="frame-chrome"><span class="window-dots"><i></i><i></i><i></i></span><span>FORGE AI / DELIVERY WORKBENCH</span><span>↗</span></div></template>
       <template v-else><div class="shopping-orbit orbit-one"></div><div class="shopping-orbit orbit-two"></div></template>
       <div :class="forge ? 'desktop-screen' : 'phone-device'">
-        <div v-if="!forge" class="phone-top"><span>9:41</span><i></i><span>▮▮ ▰</span></div>
+        <div v-if="!forge" class="phone-top" :class="{ 'phone-top--dark': chromeDark }"><span>9:41</span><i></i><span>▮▮ ▰</span></div>
         <img v-if="imageSrc" class="project-screenshot" :src="imageSrc" :alt="screen" :loading="hero ? 'eager' : 'lazy'" />
         <div v-else class="screenshot-placeholder" :class="`placeholder-step-${step}`" :key="screen" role="img" :aria-label="`${screen}，截图占位`">
           <div class="placeholder-grid" aria-hidden="true"></div>
