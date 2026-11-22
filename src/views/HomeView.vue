@@ -67,7 +67,7 @@ function onTiltLeave() {
             <span ref="taglineText">From frontend craft to AI applications.</span><span class="hero-caret" aria-hidden="true"></span>
           </p>
           <p class="mt-0 mb-[2.2rem] max-w-[34em] text-[1.02rem] text-inksoft" v-reveal="220">
-            <b class="font-semibold text-ink">约 2 年电商前端</b>经验，<b class="font-semibold text-ink">7 个月 AI 应用开发</b>经历。在 iFinD AI Chat 中负责专家模式前端交互改造，参与 Agent 能力接入；通过 ForgeAI 与 MealMind 两个已部署项目，拓展 Java / Python 全栈与 Agent 编排实践。
+            <b class="font-semibold text-ink">3 年研发经验</b>，覆盖电商营销、商家云平台、AI 智能客服与金融 AI 业务方向。在同花顺 iFinD AI Chat 负责流式回答、思考过程与工具调用结果的渲染与交互改造，参与 Claude Agent SDK / Skills 能力接入；并通过 <b class="font-semibold text-ink">ForgeAI</b> 独立完成 React / Java / Python 三层实现与部署。
           </p>
           <div class="flex flex-wrap gap-[0.7rem]" v-reveal="300">
             <RouterLink

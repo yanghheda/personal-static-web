@@ -335,7 +335,7 @@ onBeforeUnmount(() => {
               class="border border-rule-strong px-[0.6rem] py-[0.1rem] font-mono text-[0.6rem] tracking-[0.1em] uppercase">
               {{ pl }}
             </span>
-            <span class="font-mono text-[0.62rem] text-inkfade">{{ p.note }}</span>
+            <span v-if="p.note" class="font-mono text-[0.62rem] text-inkfade">{{ p.note }}</span>
           </div>
 
           <p
@@ -346,7 +346,7 @@ onBeforeUnmount(() => {
           <div class="mt-[1.1rem] flex flex-wrap gap-[0.35rem]">
             <span v-for="t in p.stack" :key="t"
               class="resume-tag border px-[0.5rem] py-[0.1rem] font-mono text-[0.6rem] tracking-[0.08em] transition-colors duration-300"
-              :class="p.aiStack.includes(t) ? 'resume-tag--hot border-accent text-accent' : 'border-rule-strong text-inkfade'">
+              :class="(p.aiStack || []).includes(t) ? 'resume-tag--hot border-accent text-accent' : 'border-rule-strong text-inkfade'">
               {{ t }}
             </span>
           </div>
@@ -361,7 +361,7 @@ onBeforeUnmount(() => {
               </template>
             </li>
           </ul>
-          <ProjectStoryLink :slug="p.slug" class="no-print" />
+          <ProjectStoryLink v-if="p.slug" :slug="p.slug" class="no-print" />
         </article>
 
         <p class="mt-[clamp(1.5rem,3vw,2.2rem)] mb-0 border-t border-dashed border-rule pt-[0.9rem] text-center font-mono text-[0.68rem] tracking-[0.04em] text-inkfade"

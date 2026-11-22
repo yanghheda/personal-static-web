@@ -1,4 +1,4 @@
-/** 简历内容：依据 yangjiaxi-ai-fullstack.html 与 AI 全栈面试参考手册整理。**文字** 为加粗，==文字== 为强调。 */
+/** 简历内容：依据本地最新简历（杨佳锡_AI全栈开发工程师_简历_上海）整理。**文字** 为加粗，==文字== 为强调。 */
 
 export const resume = {
   profile: {
@@ -6,9 +6,9 @@ export const resume = {
     nameEn: 'Yang Jiaxi',
     avatar: '杨',
     target: 'AI 全栈开发工程师',
-    targetSub: '大模型应用方向',
-    lede: 'From e-commerce interfaces to AI applications and full-stack projects.',
-    tags: ['28 岁', '海外硕士', '约 3 年开发经验', '随时到岗'],
+    targetSub: 'AI 前端 · AI 应用',
+    lede: 'From e-commerce frontend to AI full-stack delivery.',
+    tags: ['28 岁', '海外硕士', '3 年研发经验', '随时到岗'],
   },
   contacts: [
     {
@@ -24,7 +24,7 @@ export const resume = {
     {
       key: 'CITY',
       kind: 'text',
-      value: '上海/杭州/北京',
+      value: '上海',
     },
     {
       key: 'PORTAL',
@@ -77,183 +77,130 @@ export const resume = {
       en: 'Education',
     },
   ],
-  summary: ['约 **2 年电商前端开发、7 个月金融 AI 应用开发**经历，覆盖 C 端 H5 / 小程序与 B 端商家 SaaS，信息工程专业海外硕士。', '在 **iFinD AI Chat** 中负责==专家模式前端渲染与交互改造==，参与 Agent 能力接入。', '以 **React / TypeScript** 为基础，通过 **Python / FastAPI、Java / Spring Boot** 拓展全栈能力；已部署 ==ForgeAI== 与 ==MealMind==，具备 Agent 编排、受控工具调用、模型评测与部署上线的项目实践。'],
+  summary: [
+    '3 年研发经验，具备 **AI 全栈落地能力**，能按业务目标反推方案，独立完成从交互、服务端到 Agent 流程的端到端交付。拥有==电商营销、商家云平台、AI 智能客服、金融 AI 业务方向==的研发经历。',
+    '借助 AI 编程工具独立完成并部署 **ForgeAI**，覆盖 React / Java / Python 三层实现、AI 交互、Agent 编排与治理、容器化交付；能界定 AI 能力边界并验证产出。',
+  ],
   highlights: [
     {
       n: '1',
-      title: '从电商前端到金融 AI 产品',
-      desc: '约 2 年电商 H5、小程序与商家 SaaS 前端经验；在同花顺 iFinD AI Chat 负责专家模式交互改造，参与 Claude Agent SDK、Skills 与多格式文件生成的能力接入和前后端联调。',
+      title: '3 年研发，四类业务方向',
+      desc: '电商营销、商家云平台、AI 智能客服与金融 AI 业务；覆盖 C 端 H5 / 小程序、B 端配置台与审批流，以及 AI 对话与 Agent 能力接入。',
     },
     {
       n: '2',
-      title: 'Agent 编排与工具治理',
-      desc: '以 LangGraph 有界循环驱动交付：按阶段裁剪上下文与可用工具，权限、幂等与状态机校验统一留在服务端，Agent 仅经受控 Tool API 执行、不持有业务凭据。',
+      title: '可追踪的 AI 交互',
+      desc: '负责流式回答、思考过程与工具调用结果的渲染与交互改造；前端按 sequence 去重续读 SSE 事件，断线以快照收敛缺口，公网 30 次多步任务首反馈中位 0.7s、30/30 次事件序号无缺口。',
     },
     {
       n: '3',
-      title: '人工审批与任务恢复',
-      desc: 'HIGH 风险动作冻结 Tool、调用参数与资源版本，由非发起人独立审批；SQLite Checkpoint 保存图状态、审批后重校验再恢复，持久事件序号支持 SSE 断线补发。',
+      title: '受控 Agent 与人工审批',
+      desc: 'Agent 仅通过短时 Run 级 JWT 调用受控 Tool API，不持有业务凭据；按三级风险分流，HIGH 强制非发起人审批，以参数哈希、资源版本、幂等键与 Checkpoint / Outbox 保证可恢复。',
     },
     {
       n: '4',
-      title: '确定性边界与降级',
-      desc: '硬约束过滤、价格计算与加权排序全部由业务代码执行，模型只负责理解与表达；失败按「单菜规则分 → 整轮规则模式 → 冷却探测恢复」三档降级，降级状态对用户可见。',
+      title: '有界编排与工程边界',
+      desc: '基于 LangGraph 有界循环，按交付阶段注入工具白名单与最小化上下文，叠加工具预算、递归上限与模型超时重试；越界调用在 Runtime 拦截，不依赖提示词约束。',
     },
     {
       n: '5',
-      title: '可评测、可计量',
-      desc: 'Golden 用例批跑、稳定性复跑与置信度校准构成评测闭环：硬约束零违规、通过率 98%、端到端 P95 目标 ≤3s，单次决策成本与各阶段耗时落库、看板可查。',
+      title: '性能与稳定性优化',
+      desc: '智能客服请求复用与短 TTL 缓存使 AI 会话请求量减少 18%，会话恢复成功率由约 70% 提升至 99%，长列表窗口化渲染使媒体流量降低 35%。',
     },
   ],
   experience: [
     {
       company: '同花顺',
-      role: 'AI 应用开发工程师',
+      role: 'AI 应用开发工程师（前端方向）',
       period: '2026.01 — 2026.08',
-      pills: ['互联网金融', 'iFinD AI Chat · 专家模式'],
-      points: ['**专家模式交互改造：**负责专家模式相关前端开发，改造对话内容的渲染与交互方式，配合专家模式功能迭代完成界面适配和前后端联调。', '**Agent 能力接入：**参与基于 Claude Agent SDK 的后端能力接入与联调，配合完成 Skills 集成及多格式文件生成相关功能，衔接 Agent 能力与对话界面。'],
+      pills: ['互联网金融', 'iFinD AI Chat'],
+      points: [
+        '**AI 对话与 Agent 能力：**负责流式回答、思考过程与工具调用结果的渲染与交互改造；负责专家模式前端与多格式文件渲染，参与 Claude Agent SDK、Skills 能力接入联调。',
+        '**AI 定时任务模块：**负责任务创建、列表 / 详情、执行记录与终端提醒接入的前端开发与接口联调；与 Java 服务端明确接口契约与异常口径。',
+        '**团队共建：**部门双周分享会主讲 2 次；参与公司 AI Native 开发平台共建，负责 2 个 Skill 的开发。',
+      ],
     },
     {
       company: '爱库存',
-      role: '前端开发工程师',
+      role: '前端开发工程师（后半年参与全栈开发）',
       period: '2023.07 — 2025.07',
-      pills: ['电商', 'C 端交易平台 / B 端商家 SaaS'],
-      points: ['负责电商平台 C 端 H5、微信小程序开发，覆盖商品、交易、营销及大促活动。', '参与 B 端商家 SaaS 开发，实现商品、订单管理及数据看板，沉淀业务组件。'],
+      pills: ['电商', 'C 端交易平台 / B 端商家云平台'],
+      points: [
+        '**C 端 H5 和小程序：**负责营销会场、店铺页的 H5 和小程序开发，覆盖页面搭建、交互实现、接口联调与多端适配，支持营销活动上线与迭代。',
+        '**B 端商家云平台：**负责商家营销激励中心（满返 / 满赠 / 拓新 / PK）的配置台与商家 BP 审批模块前端开发；参与营销相关聚合接口开发。',
+        '**智能客服：**负责饷店 H5 智能客服的 AI 接入、消息渲染与性能优化，统一消息协议并补齐异常兜底与会话恢复。',
+      ],
     },
   ],
   projects: [
     {
       num: '01',
       slug: 'forgeai',
-      name: 'ForgeAI · AI 研发交付工作台',
+      name: 'ForgeAI · AI Native 研发交付工作台',
       role: '全栈开发',
-      period: '个人项目',
-      pills: ['个人项目 · 全栈', 'B 端 · 已部署上线'],
-      note: 'Web 工作台 + Java 业务服务 + Python Agent Runtime',
-      stack: ['LangGraph', '结构化输出', 'SQLite Checkpoint', 'SSE', 'Vite', 'React 19', 'TypeScript', 'TanStack Query', 'Zustand', 'Spring Boot', 'MyBatis-Plus', 'FastAPI', 'MySQL', 'Redis', 'Qdrant', 'Docker Compose'],
-      aiStack: ['LangGraph', '结构化输出', 'SQLite Checkpoint', 'SSE'],
-      desc: '面向企业产研协作，将需求、PRD、设计、开发、测试与发布管理汇集到同一工作台，通过分阶段 Agent 辅助生成交付物、调用业务工具并推进流程。',
+      period: '2026.07 — 2026.09',
+      pills: ['研发协作 · 个人项目', '已部署上线'],
+      note: 'forgeai.yjxai.cloud',
+      stack: ['React / TypeScript / Vite', 'TanStack Query / Zustand', 'Spring Boot / MyBatis-Plus', 'FastAPI / LangGraph', 'MySQL / Redis / Qdrant', 'Docker Compose'],
+      aiStack: ['FastAPI / LangGraph'],
+      desc: '面向小团队及公司内部研发团队的自托管 B 端研发交付工作台，以统一工作项和交付图串联需求、文档、任务、MR / CI 与发布状态，覆盖产品、UX、开发、测试与发布的完整流程；内置 Agent 辅助生成文档、拆解任务及调用受控工具，减少跨阶段重复操作、提升交付效率。',
       points: [
-        '**全栈架构与业务流程：**以 Monorepo 组织 Web 工作台、Java 业务服务与 Python Agent Runtime 三层架构；由 Java 统一管理权限、状态机与事务，Agent 仅经受控 Tool API（短时 Run 级 JWT）执行业务操作、不持有业务凭据；以交付图串联需求、文档版本、任务、MR / Pipeline 与发布信息。',
-        '**Agent 编排与执行约束：**基于 LangGraph 搭建“计划—工具选择—守卫—执行—观察—收敛”有界循环；按产品、设计、开发、测试、发布阶段注入工具白名单与最小化上下文；实现结构化输出与流式生成，经 Pydantic 与 JSON Schema 双层校验，以工具调用预算、图递归上限与模型调用超时重试约束执行。',
-        '**人工审批与任务恢复：**按 Tool / Skill 契约的权限码与三级风险（LOW / MEDIUM / HIGH）分流，HIGH 强制人工审批且申请人不可自批；审批冻结参数哈希与资源版本并设 15 分钟 TTL，结合 RBAC、公司作用域及 runId + toolCallId 幂等键（命中即重放）防止越权和重复写入；SQLite Checkpoint 保存图状态，等待审批后由 Outbox 驱动恢复执行。',
-        '**AI 交互与可追溯性：**实现对话面板、实时工具执行状态、审批操作及 Tiptap 文档编辑；通过 SSE 展示回答、思考与工具事件增量，以持久化事件序号支持断线补发；结合前端增量归并、快照拉取与轮询兜底保持任务进度一致。',
-        '**交付集成与验证：**实现 GitLab 分支、MR、Pipeline 与 Webhook 对接；Webhook 队列幂等去重、按远端时间戳丢弃迟到事件并定时对账收敛；发布前执行 6 条确定性预检，审批通过后触发模拟部署；以 CI 质量门禁、集成测试与冒烟回归脚本保障交付质量，三应用经 Docker Compose 容器化编排部署。',
+        '**受控工具调用：**Agent 仅通过受控 Tool API（短时 Run 级 JWT）操作业务对象，不持有长期业务凭据；服务端按权限码与资源归属拦截越权，按状态机拦截非法状态流转。',
+        '**可追踪的 AI 交互：**前端订阅带序号 SSE 事件流，对话流与轨迹按 sequence 去重续读，审批 / 终态事件更新 Run 状态；断线以快照重取收敛缺口。公网 30 次多步任务首反馈中位 0.7s、端到端 P95 26.9s，30/30 次任务事件序号无缺口。',
+        '**执行可靠性：**按三级风险分流，HIGH 强制人工审批且申请人不可自批；审批冻结参数哈希与资源版本，runId + toolCallId 幂等拦截重复写入，Checkpoint 与 Outbox 支持审批后继续执行。',
+        '**有界执行：**基于 LangGraph 有界循环，按交付阶段注入工具白名单与最小化上下文，叠加工具预算、递归上限与模型超时重试；越界调用在 Runtime 拦截，不依赖提示词约束。',
+        '**交付集成：**打通 GitLab 分支、MR、Pipeline 与 Webhook，队列幂等去重 + 迟到事件丢弃 + 建分支 / MR reconcile；发布前执行 6 条确定性预检，审批通过后触发发布流水线（模拟环境执行）。',
       ],
     },
     {
       num: '02',
-      slug: 'mealmind',
-      name: 'MealMind · AI 外卖决策平台',
-      role: '全栈开发',
-      period: '个人项目',
-      pills: ['个人项目 · 全栈', 'C 端 · 已部署 · 模拟数据'],
-      note: '移动端 H5 + Java 业务服务 + Python Agent 运行时',
-      stack: ['LangGraph', '阿里云百炼（决策模型打分）', '通义千问（理解与生成）', '结构化输出', 'SSE', 'React', 'TypeScript', 'Vite', 'TanStack Query', 'Zustand', 'Spring Boot', 'MyBatis-Plus', 'FastAPI', 'MySQL', 'Redis', 'Docker Compose'],
-      aiStack: ['LangGraph', '决策模型（阿里云百炼）', '结构化输出', 'SSE'],
-      desc: '面向外卖「不知道吃什么」的决策场景，输入一句自然语言，3 轮对话内给出 3–5 张带逐维度评分、依据与置信度的候选卡片；硬性约束（预算 / 忌口 / 营业状态）由代码保证零违规。',
-      points: ['**架构与职责边界：**H5 / Java 业务服务 / Python Agent 三层分层，模型只负责语义，硬约束过滤、价格计算、加权排序与落库全部由 Java 完成；Agent 不接触业务存储与凭据，不可用时仅推荐降级。', '**快慢模型分工与打分：**决策模型逐菜按口味、预算、时效、口碑、场景五维打分并返回概率分布与置信度，不生成文本；生成式模型负责理解、追问与理由表达；综合分与展示顺序由代码合成，模型不可调整。', '**降级、恢复与评测：**Scorer 适配层提供决策模型 / 规则分双实现，单菜失败降规则分、失败超阈值整轮切规则模式；SSE 分步进度支持断线补齐与会话恢复；以 Golden 用例集、重复复跑与置信度校准评测，复用线上同一实现，本地评测批实测硬约束零违规、通过率 98%、端到端 P95 约 3s，成本接入看板。', '**部署与交付：**三容器 Docker Compose 接入服务器共享基础设施，复用边缘 nginx 反代；配置 GitHub Actions 流水线，构建镜像推 GHCR 后 SSH 部署，按变更路径只重建受影响服务，公网 HTTPS 可访问。'],
+      name: 'AI 智能客服 H5 · 私域电商平台饷店',
+      role: '前端开发',
+      period: '2024.10 — 2025.01',
+      pills: ['公司项目 · 爱库存', 'AI 智能助手接入'],
+      note: '上线后 AI 自助解决率提升约 10%',
+      stack: ['Next.js / React', 'Tailwind CSS', 'Zustand', 'AI 智能助手接入'],
+      aiStack: ['AI 智能助手接入'],
+      desc: '饷店 H5 中的客服模块，技术重构的同时集成 AI 智能助手，在保留常规售后能力的基础上降低人工转接率、提升会话稳定性；上线后 AI 自助解决率提升约 10%。',
+      points: [
+        '**消息协议与发送状态：**将文本 / 卡片 / 图片 / 附件收敛为统一消息模型，分离用户消息发送状态与 AI 回复流式状态；超时先查消息状态，重试复用 clientMsgId，由服务端幂等去重，避免重复发送与假失败。',
+        '**转人工交接：**按用户主动、连续失败、超时及业务下发的敏感意图触发转人工，转接时组装近期对话、订单 / 商品上下文与 AI 摘要；转接后前端停止渲染后续 AI 流，排队 / 已接入 / 失败三态可恢复，避免用户重复描述。',
+        '**在途请求复用与缓存：**以「会话 + 上下文指纹 + 归一化问题」为键复用进行中请求，成功结果短 TTL 缓存、失败不缓存；客服页 AI 会话请求量减少 18%，缓存命中等待缩短约 120ms。',
+        '**会话持久化：**内存快照承载首屏、IndexedDB 兜底持久化，写入节流 + 容量上限 + LRU 淘汰；刷新或切后台恢复最近消息、顺序与发送状态，恢复成功率由约 70% 提升至 99%。',
+        '**长列表加载：**历史消息按可视区域窗口化渲染，仅保留可视区与缓冲区节点，图片与附件按可视区域懒加载、首屏不懒加载；客服页媒体流量降低 35%，减少长会话 DOM 压力与首屏阻塞。',
+      ],
+    },
+    {
+      num: '03',
+      name: '商家营销激励中心（B 端）· 商家云平台',
+      role: 'B 端前端开发',
+      period: '2024.01 — 2024.10',
+      pills: ['公司项目 · 爱库存', '活动配置 · 规则管理 · 审批流'],
+      note: '满返 / 满赠 / 拓新 / PK 四类活动',
+      stack: ['React', 'Vite', 'Ant Design', 'constate', 'MicroApp 微前端'],
+      aiStack: [],
+      desc: '面向商家 / 运营的营销激励配置平台，支撑满返、满赠、拓新、PK 4 类任务型活动从创建、规则配置到审批生效的完整流程；活动在 C 端激励中心承接店主参与，形成「配置—审批—生效」闭环。',
+      points: [
+        '**活动表单抽象：**将 4 类活动的初始化、类型差异、字段联动与提交收敛为自定义 Hook，入参为活动类型与模式，页面只保留布局与字段声明；公共字段与差异字段按类型配置注入，新增活动类型不再复制整套页面，同类配置页开发工时估算减少约 80%。',
+        '**动态字段与联动校验：**用 Form.List 承载规则行动态增删，dependencies 驱动依赖字段重校验；金额、次数、时间边界与跨字段规则收敛为 1 套公共校验，4 类活动按类型配置复用。',
+        '**状态域拆分：**基于 constate 按活动配置、列表、审批拆分独立 Context，全局只保留用户与权限等低频状态，页面态留在页面；消费者只订阅所属业务域，避免单一全局 store 变更引发全量重渲染。',
+        '**业务组件封装：**二次封装活动类型选择器、金额 / 次数输入与审批状态操作区，统一 value / onChange 受控契约、只读权限与错误提示；底层 props 透传，组件库升级在封装层消化。',
+        '**列表与加载优化：**活动列表的筛选、分页、请求状态与 URL 参数联动，刷新或分享链接可还原查询条件；非核心模块路由级懒加载，输入类交互做防抖，减少无效请求与首屏资源。',
+      ],
     },
   ],
   skillGroups: [
     {
-      title: 'AI / 大模型应用',
-      en: 'AI & LLM',
-      tags: [
-        {
-          name: 'LangGraph',
-          hot: true,
-        },
-        {
-          name: 'FastAPI',
-          hot: true,
-        },
-        {
-          name: '结构化输出',
-          hot: true,
-        },
-        {
-          name: '受控工具调用',
-        },
-        {
-          name: 'Checkpoint / 审批恢复',
-        },
-        {
-          name: '大模型 API 接入',
-        },
-        {
-          name: 'Claude Agent SDK 接入',
-        },
-        {
-          name: 'Skills / 文件生成联调',
-        },
-        {
-          name: 'RAG 链路理解（分块 / 索引 / 检索 / 引用校验）',
-        },
-        {
-          name: 'Qdrant 索引 / 过滤',
-        },
-        {
-          name: '概率打分 / 置信度',
-        },
-      ],
-    },
-    {
-      title: '后端与数据',
-      en: 'Backend',
-      tags: [
-        {
-          name: 'Java',
-          hot: true,
-        },
-        {
-          name: 'Spring Boot',
-          hot: true,
-        },
-        {
-          name: 'Python',
-          hot: true,
-        },
-        {
-          name: 'MyBatis / MyBatis-Plus',
-        },
-        {
-          name: 'MySQL',
-        },
-        {
-          name: 'Redis',
-        },
-        {
-          name: 'Flyway',
-        },
-        {
-          name: 'REST API',
-        },
-        {
-          name: 'RBAC / 组织隔离',
-        },
-        {
-          name: '幂等 / 事务 / Outbox',
-        },
-      ],
-    },
-    {
-      title: '前端开发',
+      title: '前端',
       en: 'Frontend',
       tags: [
-        {
-          name: 'React',
-          hot: true,
-        },
         {
           name: 'TypeScript',
           hot: true,
         },
         {
-          name: 'Next.js',
-        },
-        {
-          name: 'React Router',
+          name: 'React / Next.js',
+          hot: true,
         },
         {
           name: 'Vite',
@@ -265,55 +212,154 @@ export const resume = {
           name: 'Zustand',
         },
         {
-          name: 'H5 / 小程序',
+          name: 'SSE 流式渲染 / 会话恢复 / Agent 执行可视化',
+          hot: true,
+        },
+        {
+          name: 'H5 / 微信小程序',
         },
       ],
     },
     {
-      title: '交互与工程化',
-      en: 'Engineering',
+      title: '后端与中间件',
+      en: 'Backend',
       tags: [
         {
-          name: 'SSE 流式响应',
+          name: 'Node.js',
+        },
+        {
+          name: 'Java / Spring Boot',
           hot: true,
         },
         {
-          name: '事件续传 / 快照恢复',
+          name: 'Python / FastAPI',
           hot: true,
         },
         {
-          name: 'Docker Compose',
+          name: 'MySQL',
+        },
+        {
+          name: 'Redis',
+        },
+        {
+          name: 'Kafka',
+        },
+        {
+          name: 'MyBatis-Plus',
+        },
+        {
+          name: 'JWT / RBAC',
+        },
+        {
+          name: 'Spring Cloud（了解）',
+        },
+      ],
+    },
+    {
+      title: 'AI Agent',
+      en: 'Agent',
+      tags: [
+        {
+          name: 'LangGraph 有界 Agent Loop',
           hot: true,
         },
         {
-          name: '契约校验',
+          name: 'Tool Calling',
+          hot: true,
         },
         {
-          name: '单元测试',
+          name: 'Prompt / Context Engineering',
         },
         {
-          name: '端到端回归',
+          name: '结构化输出与流式生成',
+          hot: true,
         },
         {
-          name: 'Golden Case 评测',
+          name: 'MCP（了解协议）',
         },
         {
-          name: '故障降级',
+          name: 'LangChain / LlamaIndex（了解）',
+        },
+        {
+          name: 'Planning / Memory / 多智能体（了解）',
+        },
+      ],
+    },
+    {
+      title: 'RAG 与数据',
+      en: 'RAG',
+      tags: [
+        {
+          name: '文档解析 / 切分 / Embedding',
+          hot: true,
+        },
+        {
+          name: 'Qdrant',
+          hot: true,
+        },
+        {
+          name: '引用溯源 / 权限过滤',
+        },
+        {
+          name: '混合检索 / 重排（了解）',
+        },
+      ],
+    },
+    {
+      title: '工程化与部署',
+      en: 'DevOps',
+      tags: [
+        {
+          name: 'Linux',
+        },
+        {
+          name: 'Nginx',
+        },
+        {
+          name: 'Docker / Compose',
+          hot: true,
+        },
+        {
+          name: 'GitHub Actions',
+          hot: true,
+        },
+        {
+          name: 'CI 门禁',
+        },
+        {
+          name: '日志 / 指标 / Trace（了解）',
+        },
+      ],
+    },
+    {
+      title: 'AI 编程实践',
+      en: 'AI Coding',
+      tags: [
+        {
+          name: 'Codex',
+          hot: true,
+        },
+        {
+          name: 'Trae',
+          hot: true,
+        },
+        {
+          name: '需求拆解 / 生成 / 审查 / 验证与测试',
         },
       ],
     },
   ],
   education: [
     {
-      degree: '信息工程（计算机）',
+      degree: '计算机软件工程',
       badge: '硕士',
-      school: '中部大学 · 日本',
+      school: '中部大学（日本）',
       period: '2021.04 — 2023.03',
     },
     {
-      degree: '信息工程（计算机）',
+      degree: '计算机软件工程',
       badge: '本科',
-      school: '名古屋 HAL · 日本',
+      school: '名古屋 HAL（日本）',
       period: '2017.04 — 2021.03',
     },
   ],
@@ -327,5 +373,5 @@ export const resume = {
       level: '日本留学经历 · 2015–2023',
     },
   ],
-  footerNote: 'ForgeAI 与 MealMind 均为已部署的个人全栈项目 · 演示地址 forgeai.yjxai.cloud / mealmind.yjxai.cloud · 可提供源码讲解，具体实现范围见项目说明',
+  footerNote: 'ForgeAI 已部署上线 · forgeai.yjxai.cloud · 可提供源码讲解，具体实现范围见项目说明；公司项目按脱敏口径说明',
 };

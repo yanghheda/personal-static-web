@@ -61,19 +61,19 @@ export const navIndex = [
 
 export const stats = [
   {
-    n: '02',
-    unit: 'YEARS',
-    label: '约 2 年电商前端开发经历，覆盖 C 端 H5 / 小程序与 B 端商家 SaaS。',
-  },
-  {
-    n: '07',
-    unit: 'MONTHS',
-    label: '金融 AI 应用开发经历，负责 iFinD AI Chat 专家模式前端改造，参与 Agent 能力接入。',
-  },
-  {
     n: '03',
-    unit: 'TRACKS',
-    label: '全栈实践的三个方向：前端交互、Java 业务服务、Python / Agent 编排。',
+    unit: 'YEARS',
+    label: '3 年研发经验，从 C 端 H5 / 小程序到 B 端商家云平台，再到 AI 对话与 Agent 能力接入。',
+  },
+  {
+    n: '04',
+    unit: 'DOMAINS',
+    label: '四类业务方向：电商营销、商家云平台、AI 智能客服、金融 AI。',
+  },
+  {
+    n: '02',
+    unit: 'DEPLOYED',
+    label: '两个已部署的个人全栈项目：ForgeAI 与 MealMind，覆盖三层架构、Agent 治理与容器化交付。',
   },
 ];
 
@@ -81,7 +81,7 @@ export const nowItems = [
   {
     en: 'Doing',
     title: '正在做',
-    desc: '围绕 ForgeAI 与 MealMind 整理全栈项目实践，梳理工具调用、人工审批、任务恢复与决策评测链路。',
+    desc: '围绕 ForgeAI 整理全栈项目实践，梳理受控工具调用、人工审批、任务恢复与交付集成链路。',
   },
   {
     en: 'Learning',
@@ -91,7 +91,7 @@ export const nowItems = [
   {
     en: 'Looking for',
     title: '正在找',
-    desc: 'AI 全栈 / AI 应用开发岗位。目前在上海，随时到岗，希望进一步承担从前端交互到服务接口与 Agent 流程的完整交付。',
+    desc: 'AI 前端 / AI 全栈 / AI 应用开发岗位。目前在上海，随时到岗，希望进一步承担从前端交互到服务接口与 Agent 流程的完整交付。',
   },
 ];
 
